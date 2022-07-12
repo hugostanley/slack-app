@@ -1,6 +1,7 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import React, { useState } from "react";
-import NavBar from '../components/NavBar'
+import Header from '../layouts/Header'
+import Main from '../layouts/Main'
 const LandingPage = ()=>{
 	return ( 
 		<Grid templateAreas={`"header" "main" "footer"`}
@@ -8,9 +9,9 @@ const LandingPage = ()=>{
 					minHeight='100vh'
 					maxHeight='100vh'
 		>
-			<GridItem bg='blue' w='100vw' area={'header'}><NavBar /></GridItem>
-			<GridItem bg='cyan' w='100vw' area={'main'}>Main</GridItem>
-			<GridItem bg='blue' w='100vw' area={'footer'}>Footer</GridItem>
+			<GridItem  w='100vw' area={'header'}><Header /></GridItem>
+			<GridItem w='100vw' area={'main'}><Main/></GridItem>
+			<GridItem w='100vw' area={'footer'}>Footer</GridItem>
 		</Grid>
 	)
 }
