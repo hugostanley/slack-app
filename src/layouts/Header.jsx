@@ -4,7 +4,7 @@ import SlackLogo from '../assets/images/Slack_RGB.png'
 
 const Header = ()=> {
 	return (
-		<Flex alignItems='center'  height='100%' width='100%' >
+		<Flex alignItems='center'  height='100%' width='100%' paddingX='4rem'>
 			<Center flex='1'>
 				<Link href='https://slack.com/' isExternal>
 					<Image src={SlackLogo} boxSize='50%'/>
