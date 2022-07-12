@@ -1,8 +1,8 @@
 import React from "react";
 
 
-const Chat = ()=> {
+const Client = ()=> {
 	return <h1>Chat page</h1>
 }
 
-export default Chat
+export default Client

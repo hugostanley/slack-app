@@ -1,19 +1,17 @@
+import { Grid, GridItem } from "@chakra-ui/react";
 import React, { useState } from "react";
-import LoginModal from '../components/LoginModal'
-import RegisterModal from '../components/RegisterModal'
-
+import NavBar from '../components/NavBar'
 const LandingPage = ()=>{
-	const [loginOpen, setLoginOpen] = useState(false)
-	const [registerOpen, setRegisterOpen] = useState(false)
 	return ( 
-		<>
-			<div> 
-				<button onClick={()=> setLoginOpen(!loginOpen)}>Login</button>
-				<button onClick={()=> setRegisterOpen(!registerOpen)}>Register</button>
-			</div>
-			{loginOpen && <LoginModal />}
-			{registerOpen && <RegisterModal />}
-		</>
+		<Grid templateAreas={`"header" "main" "footer"`}
+					gridTemplateRows={'10% 80% 10%'}
+					minHeight='100vh'
+					maxHeight='100vh'
+		>
+			<GridItem bg='blue' w='100vw' area={'header'}><NavBar /></GridItem>
+			<GridItem bg='cyan' w='100vw' area={'main'}>Main</GridItem>
+			<GridItem bg='blue' w='100vw' area={'footer'}>Footer</GridItem>
+		</Grid>
 	)
 }
 
