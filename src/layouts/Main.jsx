@@ -1,6 +1,7 @@
-import { Box, Button, Center, Container, Flex, Heading, Image, Spacer, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Container, Flex, Heading, Image, Spacer, Stack, Text, } from "@chakra-ui/react";
 import React from "react";
 import Hero from '../assets/images/hero.png'
+import LoginModal from '../components/LoginModal'
 
 const Main = ()=> {
 	return (
@@ -17,7 +18,7 @@ const Main = ()=> {
 					</Box>
 					<Text color='gray.600'  >Don't miss out, join slack today </Text>
 					<Stack direction='row'>
-						<Button colorScheme='gray'>Log In</Button>
+						<LoginModal />
 						<Button colorScheme='yellow'gray>Register</Button>
 					</Stack>
 				</Flex>
