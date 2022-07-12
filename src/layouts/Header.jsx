@@ -1,3 +1,4 @@
+import { MoonIcon } from "@chakra-ui/icons";
 import { Box, Center, Flex, Heading, Link, Image, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
 import SlackLogo from '../assets/images/Slack_RGB.png'
@@ -21,6 +22,7 @@ const Header = ()=> {
 				<Link href="https://slack.com/pricing" isExternal>
 					<Text fontSize='sm'>Pricing</Text>
 				</Link>
+				<MoonIcon />
 			</Center>
 		</Flex>
 	)
