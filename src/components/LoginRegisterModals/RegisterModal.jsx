@@ -55,9 +55,9 @@ const RegisterModal = () => {
 								</InputGroup>
 							</Box>
 							<Box>
-								<FormLabel htmlFor="password">Confirm password</FormLabel>
+								<FormLabel htmlFor="password-confirm">Confirm password</FormLabel>
 								<InputGroup>
-									<Input id="password" type={showPass ? "text" : "password"} placeholder='Confirm password' />
+									<Input id="password-confirm" type={showPass ? "text" : "password"} placeholder='Confirm password' />
 									<InputRightElement>
 										{showPass ? (
 											<ViewOffIcon onClick={handleClick} />
