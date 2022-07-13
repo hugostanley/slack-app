@@ -6,7 +6,7 @@ import {
 	Input,
 } from "@chakra-ui/react";
 import ChatsDropdown from "../components/Client/ChatsDropdown";
-
+import SideBar from '../components/Client/SideBar'
 const Client = () => {
 	return (
 		<Grid
@@ -15,21 +15,7 @@ const Client = () => {
 			gridTemplateRows={"100vh"}
 			h="100vh"
 		>
-			<GridItem p={3} area={"nav"}>
-				<Heading as={"h2"} size="md" marginLeft={2}>
-					Chats
-				</Heading>
-				<Input
-					borderRadius={"1rem"}
-					focusBorderColor="none"
-					placeholder="Search"
-					size="xs"
-					variant={"filled"}
-					mt={5}
-				/>
-				<ChatsDropdown title={"Channels"} />
-				<ChatsDropdown title={"Direct Messages"} />
-			</GridItem>
+			<SideBar />
 			<GridItem bg={"gray.300"} area={"main"}>
 				hi
 			</GridItem>

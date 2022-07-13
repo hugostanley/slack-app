@@ -7,6 +7,7 @@ import {
 	AccordionItem,
 	Text,
 	Box,
+	Flex,
 } from "@chakra-ui/react";
 import ChatsItem from "../Client/ChatsPanelItem";
 
@@ -23,7 +24,20 @@ const ChatsDropdown = ({ title }) => {
 					<AccordionIcon />
 				</AccordionButton>
 				<AccordionPanel pl={1}>
-					<ChatsItem />
+					<Flex gap={1} flexDir={'column'}>
+						<ChatsItem
+							source={"https://bit.ly/dan-abramov"}
+							name={"Stanley Hugo"}
+						/>
+						<ChatsItem
+							source={"https://bit.ly/tioluwani-kolawole"}
+							name={"Jonathan Smith"}
+						/>
+						<ChatsItem
+							source={"https://bit.ly/kent-c-dodds"}
+							name={"Jonathan Smith"}
+						/>
+					</Flex>
 				</AccordionPanel>
 			</AccordionItem>
 		</Accordion>
