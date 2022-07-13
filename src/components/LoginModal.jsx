@@ -1,32 +1,66 @@
-import React from "react";
-import {Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, Input, Button, useDisclosure} from '@chakra-ui/react'
+import React, { useState } from "react";
+import {
+	Box,
+	Button,
+	FormControl,
+	FormLabel,
+	Input,
+	InputGroup,
+	InputRightElement,
+	Modal,
+	ModalCloseButton,
+	ModalContent,
+	ModalHeader,
+	ModalOverlay,
+	StackDivider,
+	useDisclosure,
+	VStack,
+} from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-const LoginModal = () => { 
-	const {isOpen, onOpen, onClose} = useDisclosure()
+const LoginModal = () => {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [showPass, setShowPass] = useState(false);
+	const handleClick = () => setShowPass(!showPass);
+
 	return (
 		<>
-		<Button colorScheme='gray' onClick={onOpen}>Log In</Button>
-
-		<Modal isOpen={isOpen} onClose={onClose}>
-			<ModalOverlay/>
-			<ModalContent>
-				<ModalHeader> Login </ModalHeader>
-				<ModalCloseButton/>
-				<ModalBody>
-					<FormControl>
-						<FormLabel htmlFor="email">Email address</FormLabel>
-						<Input id="email" type='email'/>
-						<FormLabel htmlFor="password">Password</FormLabel>
-						<Input id="password" type='password'/>
-						<Button colorScheme='yellow' marginY='1rem'>Log In</Button>
+			<Button onClick={onOpen}>Log In</Button>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Log In</ModalHeader>
+					<ModalCloseButton />
+					<FormControl paddingX={"1.5rem"} pb="1rem">
+						<VStack
+							divider={<StackDivider borderColor={"gray.200"} />}
+							spacing={4}
+							align="stretch"
+						>
+							<Box>
+								<FormLabel htmlFor="email">Email address</FormLabel>
+								<Input id="email" type={'email'} placeholder='Your email' />
+							</Box>
+							<Box>
+								<FormLabel htmlFor="password">Password</FormLabel>
+								<InputGroup>
+									<Input id="password" type={showPass ? "text" : "password"} placeholder='Your password' />
+									<InputRightElement>
+										{showPass ? (
+											<ViewOffIcon onClick={handleClick} />
+										) : (
+											<ViewIcon onClick={handleClick} />
+										)}
+									</InputRightElement>
+								</InputGroup>
+							</Box>
+							<Button colorScheme={"yellow"}>Login</Button>
+						</VStack>
 					</FormControl>
-				</ModalBody>
-			</ModalContent>
-		</Modal>
+				</ModalContent>
+			</Modal>
 		</>
-	)
-}
+	);
+};
 
-
-export default LoginModal
-
+export default LoginModal;
