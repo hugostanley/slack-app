@@ -1,12 +1,7 @@
 import React from "react";
-import {
-	Grid,
-	GridItem,
-	Heading,
-	Input,
-} from "@chakra-ui/react";
-import ChatsDropdown from "../components/Client/ChatsDropdown";
-import SideBar from '../components/Client/SideBar'
+import { Grid, GridItem } from "@chakra-ui/react";
+import SideBar from "../components/Client/SideBar";
+import ChatBox from '../components/Client/ChatBox'
 const Client = () => {
 	return (
 		<Grid
@@ -16,9 +11,7 @@ const Client = () => {
 			h="100vh"
 		>
 			<SideBar />
-			<GridItem bg={"gray.300"} area={"main"}>
-				hi
-			</GridItem>
+			<ChatBox />
 		</Grid>
 	);
 };
