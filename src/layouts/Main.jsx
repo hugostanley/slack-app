@@ -1,23 +1,19 @@
 import Hero from "../assets/images/hero.png";
 import {
-	useDisclosure,
 	Center,
 	Flex,
 	Box,
 	Heading,
 	Text,
-	Button,
 	Spacer,
 	Container,
 	Stack,
 	Image,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import LoginModal from "../components/LoginModal";
-import RegisterModal from "../components/RegisterModal";
+import LoginModal from "../components/LoginRegisterModals/LoginModal";
+import RegisterModal from "../components/LoginRegisterModals/RegisterModal";
 
 const Main = () => {
-	const [modalOpen, setModalOpen] = useState(false);
 	return (
 		<>
 			<Center height="100%" width="100%">
@@ -39,7 +35,6 @@ const Main = () => {
 						<Text color="gray.600">Don't miss out, join slack today </Text>
 						<Stack direction="row">
 							<LoginModal />
-
 							<RegisterModal />
 						</Stack>
 					</Flex>

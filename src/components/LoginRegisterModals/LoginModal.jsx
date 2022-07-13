@@ -23,11 +23,11 @@ const LoginModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [showPass, setShowPass] = useState(false);
 	const handleClick = () => setShowPass(!showPass);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	return (
 		<>
 			<Button onClick={onOpen}>Log In</Button>
-			<Modal isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={loading ? false: true}>
 				<ModalOverlay />
 				<ModalContent>
 					{loading ? (
