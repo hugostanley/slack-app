@@ -13,7 +13,8 @@ import {
 	Image,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import LoginModal from '../components/LoginModal'
+import LoginModal from "../components/LoginModal";
+import RegisterModal from "../components/RegisterModal";
 
 const Main = () => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -38,9 +39,8 @@ const Main = () => {
 						<Text color="gray.600">Don't miss out, join slack today </Text>
 						<Stack direction="row">
 							<LoginModal />
-							<Button colorScheme="yellow" gray>
-								Register
-							</Button>
+
+							<RegisterModal />
 						</Stack>
 					</Flex>
 					<Spacer w="10vw" />
