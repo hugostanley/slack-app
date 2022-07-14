@@ -14,43 +14,22 @@ import {
 	ModalOverlay,
 	StackDivider,
 	useDisclosure,
-	useToast,
 	VStack,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import ProgressModal from "./ProgressModal";
-import useFetch from "../../utils/useFetch";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const LoginModal = () => {
+const LoginModal = ({ onSubmit, loading }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [showPass, setShowPass] = useState(false);
-	const handleClick = () => setShowPass(!showPass);
-	const [loading, setLoading] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const navigate = useNavigate();
-	const [error, setError] = useState(null);
-	const toast = useToast();
+	const [showPass, setShowPass] = useState(false);
+
+	const handleClick = () => setShowPass(!showPass);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setLoading(true);
-		axios
-			.post("http://206.189.91.54/api/v1/auth/sign_in", {
-				email,
-				password,
-			})
-			.then((resp) => {
-				console.log(resp);
-				navigate("/client");
-			})
-			.catch((err) => {
-				console.log(err.response.data.errors);
-				setError(err.response.data.errors);
-			})
-
-			.finally(() => setLoading(false));
+		onSubmit(email, password);
 	};
 
 	return (
@@ -121,12 +100,6 @@ const LoginModal = () => {
 					)}
 				</ModalContent>
 			</Modal>
-			{error &&
-				toast({
-					title: `${error}`,
-					status: 'error',
-					isClosable: true,
-				})}
 		</>
 	);
 };

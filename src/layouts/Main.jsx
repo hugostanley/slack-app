@@ -12,8 +12,12 @@ import {
 } from "@chakra-ui/react";
 import LoginModal from "../components/LoginRegisterModals/LoginModal";
 import RegisterModal from "../components/LoginRegisterModals/RegisterModal";
-
+import useFetch from '../utils/useFetch'
 const Main = () => {
+	const {data, error, loading, postFetch} = useFetch()
+	const handleLogin = (email,password)=> {
+		postFetch("auth/sign_in", { email, password });
+	}
 	return (
 		<>
 			<Center height="100%" width="100%">
@@ -34,7 +38,7 @@ const Main = () => {
 						</Box>
 						<Text color="gray.600">Don't miss out, join slack today </Text>
 						<Stack direction="row">
-							<LoginModal />
+							<LoginModal onSubmit={handleLogin} loading={loading}/>
 							<RegisterModal />
 						</Stack>
 					</Flex>
