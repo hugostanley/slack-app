@@ -1,4 +1,3 @@
-import Hero from "../assets/images/hero.png";
 import {
 	Center,
 	Flex,
@@ -10,9 +9,10 @@ import {
 	Stack,
 	Image,
 } from "@chakra-ui/react";
-import LoginModal from "../components/LoginRegisterModals/LoginModal";
-import RegisterModal from "../components/LoginRegisterModals/RegisterModal";
-import useFetch from '../utils/useFetch'
+import LoginModal from "../components/LoginModal";
+import RegisterModal from "../components/RegisterModal";
+import Hero from "assets/images/hero.png";
+import useFetch from 'utils/useFetch'
 const Main = () => {
 	const {data, error, loading, postFetch} = useFetch()
 	const handleLogin = (email,password)=> {

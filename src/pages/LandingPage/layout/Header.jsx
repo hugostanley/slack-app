@@ -1,7 +1,7 @@
 import { MoonIcon } from "@chakra-ui/icons";
 import { Box, Center, Flex, Heading, Link, Image, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
-import SlackLogo from '../assets/images/Slack_Monochrome_Black.png'
+import SlackLogo from 'assets/images/Slack_Monochrome_Black.png'
 
 const Header = ()=> {
 	return (

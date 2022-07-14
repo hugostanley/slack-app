@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/Landingpage";
+import LandingPage from "./pages/LandingPage/index";
 import Client from "./pages/Client";
 
 const App = () => {

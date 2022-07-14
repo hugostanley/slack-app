@@ -1,7 +1,7 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import Header from "../layouts/Header";
-import Main from "../layouts/Main";
-import Footer from "../layouts/Footer";
+import Header from "./layout/Header";
+import Main from "./layout/Main";
+import Footer from "./layout/Footer";
 
 const LandingPage = () => {
 	return (
