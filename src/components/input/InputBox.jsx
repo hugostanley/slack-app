@@ -24,6 +24,7 @@ const InputBox = ({handleChange, id, title, type, placeholder, showPass, setShow
 							id="password"
 							type={showPass ? "text" : "password"}
 							placeholder={placeholder}
+							onChange={handleChange}
 						/>
 						<InputRightElement>
 							{showPass ? (
