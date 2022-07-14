@@ -14,6 +14,7 @@ import {
 	ModalOverlay,
 	StackDivider,
 	useDisclosure,
+	useToast,
 	VStack,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -30,6 +31,8 @@ const LoginModal = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
+	const [error, setError] = useState(null);
+	const toast = useToast();
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setLoading(true);
@@ -42,7 +45,11 @@ const LoginModal = () => {
 				console.log(resp);
 				navigate("/client");
 			})
-			.catch((err) => console.log(err))
+			.catch((err) => {
+				console.log(err.response.data.errors);
+				setError(err.response.data.errors);
+			})
+
 			.finally(() => setLoading(false));
 	};
 
@@ -114,6 +121,12 @@ const LoginModal = () => {
 					)}
 				</ModalContent>
 			</Modal>
+			{error &&
+				toast({
+					title: `${error}`,
+					status: 'error',
+					isClosable: true,
+				})}
 		</>
 	);
 };
