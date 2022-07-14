@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
 	Box,
 	Button,
@@ -17,15 +17,17 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-
+import InputBox from "components/input/InputBox";
 const RegisterModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [showPass, setShowPass] = useState(false);
-	const handleClick = () => setShowPass(!showPass);
+	const [showPassConfirm, setShowPassConfirm] = useState(false);
 
 	return (
 		<>
-			<Button onClick={onOpen} colorScheme='yellow'>Register</Button>
+			<Button onClick={onOpen} colorScheme="yellow">
+				Register
+			</Button>
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
@@ -37,36 +39,34 @@ const RegisterModal = () => {
 							spacing={4}
 							align="stretch"
 						>
-							<Box>
-								<FormLabel htmlFor="email">Email address</FormLabel>
-								<Input id="email" type={'email'} placeholder='Your email' />
-							</Box>
-							<Box>
-								<FormLabel htmlFor="password">Password</FormLabel>
-								<InputGroup>
-									<Input id="password" type={showPass ? "text" : "password"} placeholder='Your password' />
-									<InputRightElement>
-										{showPass ? (
-											<ViewOffIcon onClick={handleClick} />
-										) : (
-											<ViewIcon onClick={handleClick} />
-										)}
-									</InputRightElement>
-								</InputGroup>
-							</Box>
-							<Box>
-								<FormLabel htmlFor="password-confirm">Confirm password</FormLabel>
-								<InputGroup>
-									<Input id="password-confirm" type={showPass ? "text" : "password"} placeholder='Confirm password' />
-									<InputRightElement>
-										{showPass ? (
-											<ViewOffIcon onClick={handleClick} />
-										) : (
-											<ViewIcon onClick={handleClick} />
-										)}
-									</InputRightElement>
-								</InputGroup>
-							</Box>
+							<InputBox
+								id="email"
+								type="email"
+								title="Email Address"
+								placeholder="Your email"
+							/>
+							<InputBox
+								id="name"
+								type="text"
+								title="Full name"
+								placeholder="Your full name"
+							/>
+							<InputBox
+								id="password"
+								type="password"
+								title="Password"
+								placeholder="Enter password"
+								showPass={showPass}
+								setShowPass={setShowPass}
+							/>
+							<InputBox
+								id="password_confirm"
+								type="password"
+								title="Confirm password"
+								placeholder="Re-enter password"
+								showPass={showPassConfirm}
+								setShowPass={setShowPassConfirm}
+							/>
 							<Button colorScheme={"yellow"}>Register</Button>
 						</VStack>
 					</FormControl>
