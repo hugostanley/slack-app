@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import {
-	Box,
 	Button,
 	FormControl,
-	FormLabel,
-	Input,
-	InputGroup,
-	InputRightElement,
 	Modal,
 	ModalCloseButton,
 	ModalContent,
@@ -16,22 +11,22 @@ import {
 	useDisclosure,
 	VStack,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import ProgressModal from "./ProgressModal";
 
+import InputBox from "components/input/InputBox";
 const LoginModal = ({ onSubmit, loading }) => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPass, setShowPass] = useState(false);
-
-	const handleClick = () => setShowPass(!showPass);
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		onSubmit(email, password);
 	};
 
+	const handleEmailChange = (e) => setEmail(e.target.value);
+	const handlePasswordChange = (e) => setPassword(e.target.value);
 	return (
 		<>
 			<Button onClick={onOpen}>Log In</Button>
@@ -58,35 +53,22 @@ const LoginModal = ({ onSubmit, loading }) => {
 									spacing={4}
 									align="stretch"
 								>
-									<Box>
-										<FormLabel htmlFor="email">Email address</FormLabel>
-										<Input
-											value={email}
-											onChange={(e) => setEmail(e.target.value)}
-											id="email"
-											type={"email"}
-											placeholder="Your email"
-										/>
-									</Box>
-									<Box>
-										<FormLabel htmlFor="password">Password</FormLabel>
-										<InputGroup>
-											<Input
-												value={password}
-												onChange={(e) => setPassword(e.target.value)}
-												id="password"
-												type={showPass ? "text" : "password"}
-												placeholder="Your password"
-											/>
-											<InputRightElement>
-												{showPass ? (
-													<ViewOffIcon onClick={handleClick} />
-												) : (
-													<ViewIcon onClick={handleClick} />
-												)}
-											</InputRightElement>
-										</InputGroup>
-									</Box>
+									<InputBox
+										type="email"
+										id="email"
+										placeholder="Your email address"
+										title="Email address"
+										handleChange={handleEmailChange}
+									/>
+									<InputBox
+										type="password"
+										id="password"
+										placeholder="Your password"
+										title="Password"
+										handleChange={handlePasswordChange}
+										setShowPass={setShowPass}
+										showPass={showPass}
+									/>
 									<Button
 										colorScheme={"yellow"}
 										type="submit"
