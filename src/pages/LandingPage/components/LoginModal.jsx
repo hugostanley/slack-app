@@ -12,8 +12,8 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import ProgressModal from "./ProgressModal";
-
 import InputBox from "components/input/InputBox";
+
 const LoginModal = ({ onSubmit, loading }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");

@@ -7,14 +7,14 @@ import {
 	InputRightElement,
 } from "@chakra-ui/react";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
-const InputBox = ({ id, title, type, placeholder, showPass, setShowPass }) => {
+const InputBox = ({handleChange, id, title, type, placeholder, showPass, setShowPass }) => {
 	const handleClick = () => setShowPass(!showPass);
 	return (
 		<>
 			{type !== "password" ? (
 				<Box>
 					<FormLabel htmlFor={id}>{title}</FormLabel>
-					<Input id={id} type={type} placeholder={placeholder} />
+					<Input onChange={handleChange} id={id} type={type} placeholder={placeholder} />
 				</Box>
 			) : (
 				<Box>

@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import {
-	Box,
 	Button,
 	FormControl,
-	FormLabel,
-	Input,
-	InputGroup,
-	InputRightElement,
-	Modal,
 	ModalCloseButton,
+	Modal,
 	ModalContent,
 	ModalHeader,
 	ModalOverlay,
@@ -16,7 +11,6 @@ import {
 	useDisclosure,
 	VStack,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import InputBox from "components/input/InputBox";
 const RegisterModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -60,8 +54,7 @@ const RegisterModal = () => {
 								setShowPass={setShowPass}
 							/>
 							<InputBox
-								id="password_confirm"
-								type="password"
+								id="password_confirm" type="password"
 								title="Confirm password"
 								placeholder="Re-enter password"
 								showPass={showPassConfirm}
