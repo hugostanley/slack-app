@@ -20,13 +20,14 @@ const LoginModal = ({ onSubmit, loading }) => {
 	const [showPass, setShowPass] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
+	const handleEmailChange = (e) => setEmail(e.target.value);
+	const handlePasswordChange = (e) => setPassword(e.target.value);
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		console.log(email, password)
 		onSubmit(email, password);
 	};
 
-	const handleEmailChange = (e) => setEmail(e.target.value);
-	const handlePasswordChange = (e) => setPassword(e.target.value);
 	return (
 		<>
 			<Button onClick={onOpen}>Log In</Button>

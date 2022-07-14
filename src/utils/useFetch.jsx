@@ -14,11 +14,13 @@ const useFetch = () => {
 		axios
 			.post(`${BASE_URL}/${end}`, body)
 			.then((resp) => {
+				console.log(resp)
 				setData(resp.data);
 				navigate("/client");
 			})
 			.catch((err) => {
 				console.log(err.response.data.errors);
+				console.log(body)
 				setError(err.response.data.errors);
 			})
 			.finally(() => setLoading(false));
