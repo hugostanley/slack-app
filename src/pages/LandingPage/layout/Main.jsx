@@ -19,20 +19,21 @@ import { UserContext } from "utils/Context";
 import { useNavigate } from "react-router-dom";
 
 const Main = () => {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const { data, error, loading, postFetch } = useFetch();
 	const handleLogin = (email, password) => {
 		postFetch("auth/sign_in", { email, password });
 	};
-	const { setAuth, auth } = useContext(UserContext);
+	const { setAuth, auth, setHeaders } = useContext(UserContext);
 	console.log(auth);
 
 	const handlRegister = (body) => {};
 	const handleSwitch = () => {
 		setAuth(false);
+		setHeaders({})
 	};
 	const handleNavigate = () => {
-		navigate('/client')
+		navigate("/client");
 	};
 	return (
 		<>
