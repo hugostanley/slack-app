@@ -1,5 +1,6 @@
 import {
 	Center,
+	Button,
 	Flex,
 	Box,
 	Heading,
@@ -13,12 +14,17 @@ import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
 import Hero from "assets/images/hero.png";
 import useFetch from "utils/useFetch";
+import { useContext } from "react";
+import { UserContext } from "utils/Context";
 
 const Main = () => {
 	const { data, error, loading, postFetch } = useFetch();
 	const handleLogin = (email, password) => {
 		postFetch("auth/sign_in", { email, password });
 	};
+	const { auth } = useContext(UserContext);
+	console.log(auth)
+	
 	const handlRegister = (body) => {};
 	return (
 		<>
@@ -39,10 +45,15 @@ const Main = () => {
 							</Heading>
 						</Box>
 						<Text color="gray.600">Don't miss out, join slack today </Text>
-						<Stack direction="row">
-							<LoginModal onSubmit={handleLogin} loading={loading} />
-							<RegisterModal onSubmit={handlRegister} loading={loading}/>
-						</Stack>
+
+						{auth ? (
+							<Button colorScheme={'yellow'}> Continue as user </Button>
+						) : (
+							<Stack direction="row">
+								<LoginModal onSubmit={handleLogin} loading={loading} />
+								<RegisterModal onSubmit={handlRegister} loading={loading} />
+							</Stack>
+						)}
 					</Flex>
 					<Spacer w="10vw" />
 					<Container>
