@@ -16,16 +16,24 @@ import Hero from "assets/images/hero.png";
 import useFetch from "utils/useFetch";
 import { useContext } from "react";
 import { UserContext } from "utils/Context";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+	const navigate = useNavigate()
 	const { data, error, loading, postFetch } = useFetch();
 	const handleLogin = (email, password) => {
 		postFetch("auth/sign_in", { email, password });
 	};
-	const { auth } = useContext(UserContext);
-	console.log(auth)
-	
+	const { setAuth, auth } = useContext(UserContext);
+	console.log(auth);
+
 	const handlRegister = (body) => {};
+	const handleSwitch = () => {
+		setAuth(false);
+	};
+	const handleNavigate = () => {
+		navigate('/client')
+	};
 	return (
 		<>
 			<Center height="100%" width="100%">
@@ -46,14 +54,25 @@ const Main = () => {
 						</Box>
 						<Text color="gray.600">Don't miss out, join slack today </Text>
 
-						{auth ? (
-							<Button colorScheme={'yellow'}> Continue as user </Button>
-						) : (
-							<Stack direction="row">
-								<LoginModal onSubmit={handleLogin} loading={loading} />
-								<RegisterModal onSubmit={handlRegister} loading={loading} />
-							</Stack>
-						)}
+						<Stack direction="row">
+							{auth ? (
+								<>
+									<Button onClick={handleSwitch} colorScheme={"gray"}>
+										{" "}
+										Switch Account{" "}
+									</Button>
+									<Button onClick={handleNavigate} colorScheme={"yellow"}>
+										{" "}
+										Continue as user{" "}
+									</Button>
+								</>
+							) : (
+								<>
+									<LoginModal onSubmit={handleLogin} loading={loading} />
+									<RegisterModal onSubmit={handlRegister} loading={loading} />
+								</>
+							)}
+						</Stack>
 					</Flex>
 					<Spacer w="10vw" />
 					<Container>

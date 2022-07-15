@@ -9,7 +9,7 @@ const useFetch = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
-	const {setAuth, headers} = useContext(UserContext)
+	const {setAuth, setHeaders} = useContext(UserContext)
 
 	const postFetch = (end, body) => {
 		setLoading(true);
@@ -20,6 +20,7 @@ const useFetch = () => {
 				setData(resp.data);
 				navigate("/client");
 				setAuth(true)
+				setHeaders(resp.headers)
 			})
 			.catch((err) => {
 				console.log(err.response.data.errors);
