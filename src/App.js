@@ -6,12 +6,13 @@ import PrivateRoute from "routes/PrivateRoute";
 import {UserContext} from 'utils/Context'
 
 const App = () => {
-	const [userData, setUserData] = useState(false);
+	const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('user')));
 	const [auth, setAuth] = useState(JSON.parse(localStorage.getItem('auth')));
 	const [headers, setHeaders] = useState(JSON.parse(localStorage.getItem('headers')));
 
 	useEffect(()=>{
 		localStorage.setItem('auth', JSON.stringify(auth))
+		localStorage.setItem('user', JSON.stringify(userData))
 		localStorage.setItem('headers', JSON.stringify(headers))
 	},[auth, userData, headers])
 	
