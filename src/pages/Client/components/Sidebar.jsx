@@ -23,6 +23,11 @@ import {
 	ModalHeader,
 	ModalFooter,
 	FormControl,
+	TabPanels,
+	TabPanel,
+	Tabs,
+	TabList,
+	Tab,
 } from "@chakra-ui/react";
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import { AddIcon, EditIcon } from "@chakra-ui/icons";
@@ -61,8 +66,8 @@ const SideBar = () => {
 	};
 	const handleSend = (e) => {
 		e.preventDefault();
-		console.log(message, emailInput)
-		sendMessage()
+		console.log(message, emailInput);
+		sendMessage();
 	};
 	return (
 		<>
@@ -71,72 +76,30 @@ const SideBar = () => {
 					<Heading as={"h2"} size="md" marginLeft={2}>
 						Chats
 					</Heading>
-					<Menu>
-						<MenuButton as={IconButton} icon={<EditIcon />} />
-						<MenuList>
-							<MenuItem icon={<AddIcon />} onClick={handleAddUser}>
-								New Direct Message
-							</MenuItem>
-							<MenuItem icon={<AddIcon />}>New Channel</MenuItem>
-						</MenuList>
-					</Menu>
 				</Flex>
-				<Input
-					borderRadius={"1rem"}
-					focusBorderColor="none"
-					placeholder="Search"
-					size="xs"
-					variant={"filled"}
-					mt={5}
-				/>
-				<ChatsDropdown title={"Channels"} />
-				<ChatsDropdown title={"Direct Messages"} />
+				<Tabs >
+					<TabList>
+						<Tab fontSize={'xs'}>Messages</Tab>
+						<Tab fontSize={'xs'}>Search</Tab>
+					</TabList>
+					<TabPanels>
+						<TabPanel p={-5}>
+							<ChatsDropdown title={"Channels"} />
+							<ChatsDropdown title={"Direct Messages"} />
+						</TabPanel>
+						<TabPanel p={-5}>
+							<Input
+								borderRadius={"1rem"}
+								focusBorderColor="none"
+								placeholder="Search"
+								size="xs"
+								variant={"filled"}
+								mt={2}
+							/>
+						</TabPanel>
+					</TabPanels>
+				</Tabs>
 			</GridItem>
-			<Modal isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay />
-				<ModalContent>
-					<ModalHeader>New Message</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody>
-						<FormControl>
-							<Box mb={"1rem"}>
-								<Input
-									placeholder="Please enter the user's email"
-									type={"email"}
-									value={emailInput}
-									onChange={(e) => setEmailInput(e.target.value)}
-									list="userList"
-								/>
-								<datalist id="userList">
-									{usersList.map((item) => {
-										return (
-											<option key={item.id} value={item.id}>
-												{item.email}
-											</option>
-										);
-									})}
-								</datalist>
-							</Box>
-							<Box>
-								<Textarea
-									value={message}
-									onChange={(e) => setMessage(e.target.value)}
-									placeholder="Type your first message here"
-								/>
-							</Box>
-						</FormControl>
-					</ModalBody>
-
-					<ModalFooter>
-						<Button colorScheme="yellow" mr={3} onClick={onClose}>
-							Close
-						</Button>
-						<Button variant="ghost" onClick={handleSend}>
-							Send message
-						</Button>
-					</ModalFooter>
-				</ModalContent>
-			</Modal>
 		</>
 	);
 };
