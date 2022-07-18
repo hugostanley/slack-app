@@ -15,7 +15,7 @@ import InputBox from "components/input/InputBox";
 import ProgressModal from "./ProgressModal";
 import useFetch from "utils/useFetch";
 const RegisterModal = () => {
-	const [fullName, setFullName] = useState("");
+	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [passwordConfirm, setPassWordConfirm] = useState("");
@@ -23,11 +23,22 @@ const RegisterModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [showPass, setShowPass] = useState(false);
 	const [showPassConfirm, setShowPassConfirm] = useState(false);
-	const { loading, postRegister } = useFetch();
+	const { loading, postRegister, error } = useFetch();
 
 	const handleSubmit = () => {
-		console.log(fullName, email, passwordConfirm, password)
+		console.log(name, email, passwordConfirm, password);
+		postRegister("auth", {
+			name,
+			email,
+			password,
+			password_confirmation: passwordConfirm,
+		});
+		setPassword("");
+		setPassWordConfirm("");
+		setName("");
+		setEmail("");
 	};
+
 	return (
 		<>
 			<Button onClick={onOpen} colorScheme="yellow">
@@ -42,7 +53,7 @@ const RegisterModal = () => {
 						<>
 							<ModalHeader>Register</ModalHeader>
 							<ModalCloseButton />
-							<FormControl paddingX={"1.5rem"} pb="1rem">
+							<FormControl isInvalid={error} paddingX={"1.5rem"} pb="1rem">
 								<VStack
 									divider={<StackDivider borderColor={"gray.200"} />}
 									spacing={4}
@@ -55,14 +66,15 @@ const RegisterModal = () => {
 										placeholder="Your email"
 										value={email}
 										onStateChange={(e) => setEmail(e.target.value)}
+										error={error && error.email}
 									/>
 									<InputBox
 										id="name"
 										type="text"
 										title="Full name"
 										placeholder="Your full name"
-										value={fullName}
-										onStateChange={(e) => setFullName(e.target.value)}
+										value={name}
+										onStateChange={(e) => setName(e.target.value)}
 									/>
 									<InputBox
 										id="password"
@@ -73,6 +85,7 @@ const RegisterModal = () => {
 										setShowPass={setShowPass}
 										value={password}
 										onStateChange={(e) => setPassword(e.target.value)}
+										error={error && error.password}
 									/>
 									<InputBox
 										id="password_confirm"
@@ -83,6 +96,7 @@ const RegisterModal = () => {
 										setShowPass={setShowPassConfirm}
 										value={passwordConfirm}
 										onStateChange={(e) => setPassWordConfirm(e.target.value)}
+										error={error && error.password_confirmation}
 									/>
 									<Button colorScheme={"yellow"} onClick={handleSubmit}>
 										Register
