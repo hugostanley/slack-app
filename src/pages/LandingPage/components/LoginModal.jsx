@@ -64,7 +64,7 @@ const LoginModal = () => {
 										id="email"
 										placeholder="Your email address"
 										title="Email address"
-										handleChange={handleEmailChange}
+										onStateChange={handleEmailChange}
 										value={email}
 									/>
 									<InputBox
@@ -72,7 +72,7 @@ const LoginModal = () => {
 										id="password"
 										placeholder="Your password"
 										title="Password"
-										handleChange={handlePasswordChange}
+										onStateChange={handlePasswordChange}
 										value={password}
 										setShowPass={setShowPass}
 										showPass={showPass}
