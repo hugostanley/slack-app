@@ -1,6 +1,7 @@
 import React from "react";
 import {
 	Box,
+	FormErrorMessage,
 	FormLabel,
 	Input,
 	InputGroup,
@@ -15,7 +16,8 @@ const InputBox = ({
 	placeholder,
 	showPass,
 	setShowPass,
-	onStateChange
+	onStateChange,
+	error,
 }) => {
 	const handleClick = () => setShowPass(!showPass);
 	return (
@@ -23,7 +25,14 @@ const InputBox = ({
 			{type !== "password" ? (
 				<Box>
 					<FormLabel htmlFor={id}>{title}</FormLabel>
-					<Input onChange={onStateChange} value={value} id={id} type={type} placeholder={placeholder} />
+					<Input
+						onChange={onStateChange}
+						value={value}
+						id={id}
+						type={type}
+						placeholder={placeholder}
+					/>
+					{error && <FormErrorMessage>{error}</FormErrorMessage>}
 				</Box>
 			) : (
 				<Box>
@@ -44,6 +53,7 @@ const InputBox = ({
 							)}
 						</InputRightElement>
 					</InputGroup>
+						{error && <FormErrorMessage>{error}</FormErrorMessage>}
 				</Box>
 			)}
 		</>
