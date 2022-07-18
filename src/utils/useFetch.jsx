@@ -9,8 +9,9 @@ const useFetch = () => {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
-	const navigate = useNavigate();
+	const [success, setSuccess] = useState(false);
 	const { setAuth, setHeaders, setUserData } = useContext(UserContext);
+	const navigate = useNavigate();
 
 	const postFetch = (end, body) => {
 		setLoading(true);
@@ -18,20 +19,34 @@ const useFetch = () => {
 			.post(`${BASE_URL}/${end}`, body)
 			.then((resp) => {
 				setData(resp.data);
-				setUserData(resp.data)
+				setUserData(resp.data);
 				navigate("/client");
 				setAuth(true);
 				setHeaders(resp.headers);
 			})
 			.catch((err) => {
-				console.log(err.response.data.errors);
-				console.log(body);
 				setError(err.response.data.errors);
 			})
-			.finally(() => setLoading(false));
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 
-	return { data, loading, error, postFetch };
+	const postRegister = (end, body) => {
+		setLoading(true);
+		axios
+			.post(`${BASE_URL}/${end}`, body)
+			.then(() => setSuccess(true))
+			.catch((err) => {
+				setError(err.response.data.errors);
+			})
+			.finally(() => {
+				setError(null);
+				setLoading(false);
+			});
+	};
+
+	return { success, data, loading, error, postFetch, postRegister };
 };
 
 export default useFetch;
