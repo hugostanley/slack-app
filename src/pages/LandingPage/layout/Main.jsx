@@ -17,24 +17,23 @@ import useFetch from "utils/useFetch";
 import { useContext } from "react";
 import { UserContext } from "utils/Context";
 import { useNavigate } from "react-router-dom";
+import Logout from "utils/logOut";
 
 const Main = () => {
 	const navigate = useNavigate();
+	const { auth, setAuth, setHeaders, setUserData } = useContext(UserContext);
 	const { data, error, loading, postFetch } = useFetch();
 	const handleLogin = (email, password) => {
 		postFetch("auth/sign_in", { email, password });
 	};
-	const { setAuth, auth, setHeaders } = useContext(UserContext);
-	console.log(auth);
-
 	const handlRegister = (body) => {};
 	const handleSwitch = () => {
-		setAuth(false);
+		setAuth(false)
 		setHeaders({})
+		setUserData({})
 	};
-	const handleNavigate = () => {
-		navigate("/client");
-	};
+	const handleNavigate = () => navigate("/client");
+
 	return (
 		<>
 			<Center height="100%" width="100%">
