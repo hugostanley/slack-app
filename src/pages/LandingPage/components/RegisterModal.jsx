@@ -10,6 +10,7 @@ import {
 	StackDivider,
 	useDisclosure,
 	VStack,
+	useToast,
 } from "@chakra-ui/react";
 import InputBox from "components/input/InputBox";
 import ProgressModal from "./ProgressModal";
@@ -23,7 +24,8 @@ const RegisterModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [showPass, setShowPass] = useState(false);
 	const [showPassConfirm, setShowPassConfirm] = useState(false);
-	const { loading, postRegister, error } = useFetch();
+	const { loading, postRegister, error, success } = useFetch();
+	const toast = useToast();
 
 	const handleSubmit = () => {
 		console.log(name, email, passwordConfirm, password);
@@ -106,6 +108,14 @@ const RegisterModal = () => {
 						</>
 					)}
 				</ModalContent>
+			{success &&
+				toast({
+					title: "Account Created",
+					description: "You may now login using your account",
+					status: "success",
+					duration: 9000,
+					isClosable: true,
+				})}
 			</Modal>
 		</>
 	);
