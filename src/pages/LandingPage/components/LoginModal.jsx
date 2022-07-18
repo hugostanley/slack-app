@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
 	Button,
 	FormControl,
@@ -13,8 +13,9 @@ import {
 } from "@chakra-ui/react";
 import ProgressModal from "./ProgressModal";
 import InputBox from "components/input/InputBox";
+import useFetch from "utils/useFetch";
 
-const LoginModal = ({ onSubmit, loading }) => {
+const LoginModal = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPass, setShowPass] = useState(false);
@@ -22,10 +23,12 @@ const LoginModal = ({ onSubmit, loading }) => {
 
 	const handleEmailChange = (e) => setEmail(e.target.value);
 	const handlePasswordChange = (e) => setPassword(e.target.value);
-	const handleSubmit = (e) => {
+
+	const { data, error, loading, postFetch } = useFetch();
+	const handleSubmit = (e, email, password) => {
 		e.preventDefault();
-		console.log(email, password)
-		onSubmit(email, password);
+		console.log(email, password);
+		postFetch("auth/sign_in", { email, password });
 	};
 
 	return (
@@ -45,7 +48,6 @@ const LoginModal = ({ onSubmit, loading }) => {
 							<ModalHeader>Log In</ModalHeader>
 							<ModalCloseButton />
 							<FormControl
-								onSubmit={handleSubmit}
 								paddingX={"1.5rem"}
 								pb="1rem"
 							>
@@ -60,6 +62,7 @@ const LoginModal = ({ onSubmit, loading }) => {
 										placeholder="Your email address"
 										title="Email address"
 										handleChange={handleEmailChange}
+										value={email}
 									/>
 									<InputBox
 										type="password"
@@ -67,13 +70,14 @@ const LoginModal = ({ onSubmit, loading }) => {
 										placeholder="Your password"
 										title="Password"
 										handleChange={handlePasswordChange}
+										value={password}
 										setShowPass={setShowPass}
 										showPass={showPass}
 									/>
 									<Button
 										colorScheme={"yellow"}
 										type="submit"
-										onClick={handleSubmit}
+										onClick={(e) => handleSubmit(e, email, password)}
 									>
 										Login
 									</Button>
