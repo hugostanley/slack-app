@@ -1,28 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
-	FormLabel,
 	Box,
-	Button,
 	Flex,
 	GridItem,
 	Heading,
-	IconButton,
 	Input,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	Modal,
-	useDisclosure,
-	ModalOverlay,
-	ModalContent,
-	Textarea,
-	ModalCloseButton,
-	ModalBody,
-	ModalHeader,
-	ModalFooter,
-	FormControl,
 	TabPanels,
 	TabPanel,
 	Tabs,
@@ -30,28 +13,21 @@ import {
 	Tab,
 } from "@chakra-ui/react";
 import ChatsDropdown from "components/Client/ChatsDropdown";
-import { AddIcon, EditIcon } from "@chakra-ui/icons";
-import ProgressModal from "pages/LandingPage/components/ProgressModal";
 import { UserContext } from "utils/Context";
 const SideBar = () => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [emailInput, setEmailInput] = useState("");
 	const [message, setMessage] = useState("");
 	const { headers } = useContext(UserContext);
+	const [searchInput, setSearchInput] = useState("");
+	const [filteredUsers, setFilteredUsers] = useState([]);
+	const [usersList, setUsersList] = useState([]);
 
-	const [usersList, setUsersList] = useState("");
 	const getUsers = () => {
-		console.log(headers);
 		axios("http://206.189.91.54/api/v1/users", { headers: headers })
 			.then((resp) => {
 				setUsersList(resp.data.data);
 			})
 			.catch((err) => console.log(err));
-	};
-
-	const handleAddUser = () => {
-		onOpen();
-		getUsers();
 	};
 
 	const sendMessage = () => {
@@ -64,11 +40,12 @@ const SideBar = () => {
 			.then((resp) => console.log(resp))
 			.catch((err) => console.log(err));
 	};
-	const handleSend = (e) => {
-		e.preventDefault();
-		console.log(message, emailInput);
-		sendMessage();
-	};
+
+	useEffect(() => {
+		setFilteredUsers(
+			usersList.filter((val) => val.email.toLowerCase().includes(searchInput))
+		);
+	}, [searchInput]);
 	return (
 		<>
 			<GridItem p={3} area={"nav"}>
@@ -77,10 +54,12 @@ const SideBar = () => {
 						Chats
 					</Heading>
 				</Flex>
-				<Tabs >
+				<Tabs>
 					<TabList>
-						<Tab fontSize={'xs'}>Messages</Tab>
-						<Tab fontSize={'xs'}>Search</Tab>
+						<Tab fontSize={"xs"}>Messages</Tab>
+						<Tab fontSize={"xs"} onClick={getUsers}>
+							Search
+						</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel p={-5}>
@@ -95,7 +74,19 @@ const SideBar = () => {
 								size="xs"
 								variant={"filled"}
 								mt={2}
+								value={searchInput}
+								onChange={(e) => setSearchInput(e.target.value)}
 							/>
+							<Box
+								minH={"78vh"}
+								maxH={"78vh"}
+								overflow="auto"
+								overflowX="hidden"
+							>
+								{filteredUsers.map((item) => {
+									return <p>{item.email}</p>;
+								})}
+							</Box>
 						</TabPanel>
 					</TabPanels>
 				</Tabs>
