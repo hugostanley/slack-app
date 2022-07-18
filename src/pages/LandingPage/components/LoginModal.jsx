@@ -1,6 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
 	Button,
+	Alert,
+	AlertIcon,
+	AlertDescription,
 	FormControl,
 	Modal,
 	ModalCloseButton,
@@ -16,18 +19,21 @@ import InputBox from "components/input/InputBox";
 import useFetch from "utils/useFetch";
 
 const LoginModal = () => {
+	// email and password states for the input and for the login api fetch call
+	// showpass state is for the hide and show password Button
+	// useDisclosure is a custom hook of Chakra for their modals
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPass, setShowPass] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
+	// onChange functions
 	const handleEmailChange = (e) => setEmail(e.target.value);
 	const handlePasswordChange = (e) => setPassword(e.target.value);
 
-	const { data, error, loading, postFetch } = useFetch();
+	const { error, loading, postFetch } = useFetch();
 	const handleSubmit = (e, email, password) => {
 		e.preventDefault();
-		console.log(email, password);
 		postFetch("auth/sign_in", { email, password });
 	};
 
@@ -47,10 +53,7 @@ const LoginModal = () => {
 						<>
 							<ModalHeader>Log In</ModalHeader>
 							<ModalCloseButton />
-							<FormControl
-								paddingX={"1.5rem"}
-								pb="1rem"
-							>
+							<FormControl paddingX={"1.5rem"} pb="1rem">
 								<VStack
 									divider={<StackDivider borderColor={"gray.200"} />}
 									spacing={4}
@@ -84,6 +87,12 @@ const LoginModal = () => {
 								</VStack>
 							</FormControl>
 						</>
+					)}
+					{error && (
+						<Alert status="error">
+							<AlertIcon />
+							<AlertDescription>{error}</AlertDescription>
+						</Alert>
 					)}
 				</ModalContent>
 			</Modal>
