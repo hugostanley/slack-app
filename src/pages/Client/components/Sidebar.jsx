@@ -16,9 +16,7 @@ import {
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import { UserContext } from "utils/Context";
 const SideBar = () => {
-	const [emailInput, setEmailInput] = useState("");
-	const [message, setMessage] = useState("");
-	const { headers, selectedUser, setSelectedUser } = useContext(UserContext);
+	const { headers,  setSelectedUser } = useContext(UserContext);
 	const [searchInput, setSearchInput] = useState("");
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [usersList, setUsersList] = useState([]);
@@ -32,24 +30,18 @@ const SideBar = () => {
 			.catch((err) => console.log(err));
 	};
 
-	const sendMessage = () => {
-		axios
-			.post(
-				"http://206.189.91.54/api/v1/messages",
-				{ receiver_id: emailInput, receiver_class: "User", body: message },
-				{ headers: headers }
-			)
-			.then((resp) => console.log(resp))
-			.catch((err) => console.log(err));
-	};
-
 	useEffect(() => {
 		setFilteredUsers(
 			usersList.filter((val) => val.email.toLowerCase().includes(searchInput))
 		);
 	}, [searchInput]);
 	const handleSelect = (id, email) => {
-		setSelectedUser({ email, receiver_id: id, receiver_class: "User", body: "" });
+		setSelectedUser({
+			email,
+			receiver_id: id,
+			receiver_class: "User",
+			body: "",
+		});
 	};
 	return (
 		<>
@@ -97,7 +89,7 @@ const SideBar = () => {
 											borderRadius="5"
 											cursor={"pointer"}
 											_hover={{ backgroundColor: "gray.300" }}
-											onClick={()=>handleSelect(item.id, item.email)}
+											onClick={() => handleSelect(item.id, item.email)}
 											key={item.id}
 										>
 											<Avatar src="https://bit.ly/broken-link" size={"sm"} />
