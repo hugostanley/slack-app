@@ -11,6 +11,7 @@ import {
 	Tabs,
 	TabList,
 	Tab,
+	Avatar,
 } from "@chakra-ui/react";
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import { UserContext } from "utils/Context";
@@ -84,7 +85,19 @@ const SideBar = () => {
 								overflowX="hidden"
 							>
 								{filteredUsers.map((item) => {
-									return <p>{item.email}</p>;
+									return (
+										<Flex
+											alignItems={"center"}
+											gap={"1"}
+											padding={1}
+											borderRadius="5"
+											cursor={"pointer"}
+											_hover={{ backgroundColor: "gray.300" }}
+										>
+											<Avatar src="https://bit.ly/broken-link" size={"sm"} />
+											<p>{item.email}</p>
+										</Flex>
+									);
 								})}
 							</Box>
 						</TabPanel>
