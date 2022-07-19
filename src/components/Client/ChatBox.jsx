@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import {
 	Box,
 	Center,
@@ -14,7 +14,9 @@ import {
 	IconButton,
 } from "@chakra-ui/react";
 import { SettingsIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import { UserContext } from "utils/Context";
 const ChatBox = () => {
+	const { selectedUser, setSelectedUser } = useContext(UserContext);
 	return (
 		<>
 			<GridItem bg={"gray.300"} area={"main"}>
@@ -34,7 +36,7 @@ const ChatBox = () => {
 					/>
 
 					<Flex alignItems="center" flex={2}>
-						<Heading fontSize={"md"}> Stanley Hugo </Heading>
+						<Heading fontSize={"md"}> {selectedUser.email} </Heading>
 					</Flex>
 					<SettingsIcon mr={4} />
 				</Flex>
