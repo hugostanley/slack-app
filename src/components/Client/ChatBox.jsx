@@ -7,8 +7,13 @@ import {
 	Flex,
 	Heading,
 	Input,
+	Container,
+	Textarea,
+	Button,
+	FormControl,
+	IconButton,
 } from "@chakra-ui/react";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { SettingsIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 const ChatBox = () => {
 	return (
 		<>
@@ -20,6 +25,7 @@ const ChatBox = () => {
 					p={3}
 					boxShadow={"base"}
 					bg="whitesmoke"
+					h={"10%"}
 				>
 					<Avatar
 						size={"sm"}
@@ -32,6 +38,32 @@ const ChatBox = () => {
 					</Flex>
 					<SettingsIcon mr={4} />
 				</Flex>
+				<Box h={"90%"}>
+					<Box h={"90%"}></Box>
+					<FormControl h={"10%"} paddingY={1} paddingX={2}>
+						<Flex gap={2}>
+							<Textarea
+								rows={1}
+								resize="none"
+								size={"sm"}
+								borderRadius={20}
+								placeholder="Aa"
+								bgColor={"white"}
+								css={{
+									"&::-webkit-scrollbar": {
+										width: "0px",
+										background: "transparent",
+									},
+								}}
+							/>
+							<IconButton
+								borderRadius={20}
+								bgColor="yellow.400"
+								icon={<ArrowForwardIcon />}
+							/>
+						</Flex>
+					</FormControl>
+				</Box>
 			</GridItem>
 		</>
 	);
