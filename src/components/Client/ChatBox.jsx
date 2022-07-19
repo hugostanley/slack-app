@@ -1,22 +1,53 @@
-import React, {useContext} from "react";
+import React, { useContext, useState } from "react";
 import {
 	Box,
-	Center,
 	GridItem,
 	Avatar,
 	Flex,
 	Heading,
-	Input,
-	Container,
 	Textarea,
-	Button,
 	FormControl,
 	IconButton,
 } from "@chakra-ui/react";
 import { SettingsIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { UserContext } from "utils/Context";
+import axios from "axios";
 const ChatBox = () => {
-	const { selectedUser, setSelectedUser } = useContext(UserContext);
+	const [message, setMessage] = useState("");
+	const { selectedUser, headers, setSelectedUser } = useContext(UserContext);
+
+	const handleSend = (e) => {
+		e.preventDefault();
+		axios
+			.post(
+				"http://206.189.91.54/api/v1/messages",
+				{
+					receiver_id: selectedUser.receiver_id,
+					receiver_class: "User",
+					body: message,
+				},
+				{ headers: headers }
+			)
+			.then((resp) => {
+				console.log("send: ");
+			})
+			.catch((err) => console.log(err));
+		axios
+			.get(
+				`http://206.189.91.54/api/v1/messages?receiver_id=${selectedUser.receiver_id}&receiver_class=User`,
+				{
+					headers: headers,
+				}
+			)
+			.then((resp) => {
+				console.log(resp.data.data);
+				setSelectedUser((state) => {
+					return { ...state, conversation: resp.data.data };
+				});
+			})
+			.catch((err) => console.log(err));
+		setMessage("");
+	};
 	return (
 		<>
 			<GridItem bg={"gray.300"} area={"main"}>
@@ -41,10 +72,22 @@ const ChatBox = () => {
 					<SettingsIcon mr={4} />
 				</Flex>
 				<Box h={"90%"}>
-					<Box h={"90%"}></Box>
+					<Box h={"90%"}>
+						{selectedUser.conversation &&
+							selectedUser.conversation.map((item) => {
+								
+								return item.receiver.id !== selectedUser.receiver_id ? (
+									<Box color={"yellow"}>{item.body}</Box>
+								) : (
+									<Box>{item.body}</Box>
+								);
+							})}
+					</Box>
 					<FormControl h={"10%"} paddingY={1} paddingX={2}>
 						<Flex gap={2}>
 							<Textarea
+								value={message}
+								onChange={(e) => setMessage(e.target.value)}
 								rows={1}
 								resize="none"
 								size={"sm"}
@@ -62,6 +105,7 @@ const ChatBox = () => {
 								borderRadius={20}
 								bgColor="yellow.400"
 								icon={<ArrowForwardIcon />}
+								onClick={handleSend}
 							/>
 						</Flex>
 					</FormControl>
