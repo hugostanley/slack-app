@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
 	Box,
 	GridItem,
@@ -15,7 +15,7 @@ import axios from "axios";
 const ChatBox = () => {
 	const [message, setMessage] = useState("");
 	const { chatList, selectedConversation, headers } = useContext(UserContext);
-
+	const boxElem = useRef();
 	const handleSend = (e) => {
 		e.preventDefault();
 		console.log(selectedConversation);
@@ -35,6 +35,9 @@ const ChatBox = () => {
 			.catch((err) => console.log(err));
 		setMessage("");
 	};
+	console.log(boxElem.current)
+	boxElem.current.scrollTop = boxElem.current.scrollHeight
+	
 	return (
 		<>
 			<GridItem bg={"gray.300"} area={"main"}>
@@ -59,14 +62,21 @@ const ChatBox = () => {
 					<SettingsIcon mr={4} />
 				</Flex>
 				<Box h={"90%"}>
-					<Box h={"90%"} overflow="scroll" overflowX={"hidden"} pt='2'>
+					<Flex
+						flexDir={"column"}
+						h={"90%"}
+						overflow="scroll"
+						overflowX={"hidden"}
+						pt="2"
+						ref={boxElem}
+					>
 						{chatList &&
 							chatList.map((item) => {
 								return item.receiver.id !== selectedConversation.id ? (
 									<Flex paddingX={5} justifyContent={"flex-start"}>
 										<Box
-											maxWidth='12rem'
-											overflowWrap={'break-word'}
+											maxWidth="12rem"
+											overflowWrap={"break-word"}
 											bgColor={"white"}
 											width={"max-content"}
 											padding="1"
@@ -79,8 +89,8 @@ const ChatBox = () => {
 								) : (
 									<Flex paddingX={5} justifyContent={"flex-end"} my="1">
 										<Box
-											maxWidth='12rem'
-											overflowWrap={'break-word'}
+											maxWidth="12rem"
+											overflowWrap={"break-word"}
 											bgColor={"yellow.200"}
 											width={"max-content"}
 											padding="1"
@@ -92,7 +102,7 @@ const ChatBox = () => {
 									</Flex>
 								);
 							})}
-					</Box>
+					</Flex>
 					<FormControl h={"10%"} paddingY={1} paddingX={2}>
 						<Flex gap={2}>
 							<Textarea
