@@ -14,8 +14,7 @@ import { UserContext } from "utils/Context";
 import axios from "axios";
 const ChatBox = () => {
 	const [message, setMessage] = useState("");
-	const { chatList, selectedConversation, headers, } =
-		useContext(UserContext);
+	const { chatList, selectedConversation, headers } = useContext(UserContext);
 
 	const handleSend = (e) => {
 		e.preventDefault();
@@ -60,14 +59,35 @@ const ChatBox = () => {
 					<SettingsIcon mr={4} />
 				</Flex>
 				<Box h={"90%"}>
-					<Box h={"90%"}>
-						{chatList && chatList.map((item) => {
-							return item.receiver.id !== selectedConversation.id ? (
-								<Box color={"yellow"}>{item.body}</Box>
-							) : (
-								<Box>{item.body}</Box>
-							);
-						})}
+					<Box h={"90%"} overflow="scroll" overflowX={"hidden"} pt='2'>
+						{chatList &&
+							chatList.map((item) => {
+								return item.receiver.id !== selectedConversation.id ? (
+									<Flex paddingX={5} justifyContent={"flex-start"}>
+										<Box
+											bgColor={"white"}
+											width={"max-content"}
+											padding="1"
+											paddingX={"3"}
+											borderRadius={"10"}
+										>
+											{item.body}
+										</Box>
+									</Flex>
+								) : (
+									<Flex paddingX={5} justifyContent={"flex-end"} my="1">
+										<Box
+											bgColor={"yellow.200"}
+											width={"max-content"}
+											padding="1"
+											paddingX={"3"}
+											borderRadius={"10"}
+										>
+											<p>{item.body}</p>
+										</Box>
+									</Flex>
+								);
+							})}
 					</Box>
 					<FormControl h={"10%"} paddingY={1} paddingX={2}>
 						<Flex gap={2}>
