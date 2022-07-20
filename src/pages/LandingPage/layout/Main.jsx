@@ -13,26 +13,19 @@ import {
 import LoginModal from "../components/LoginModal";
 import RegisterModal from "../components/RegisterModal";
 import Hero from "assets/images/hero.png";
-import useFetch from "utils/useFetch";
 import { useContext } from "react";
 import { UserContext } from "utils/Context";
 import { useNavigate } from "react-router-dom";
-import Logout from "utils/logOut";
 
 const Main = () => {
 	const navigate = useNavigate();
 	const { auth, setAuth, setHeaders, setUserData } = useContext(UserContext);
-	const { data, error, loading, postFetch } = useFetch();
-	const handleLogin = (email, password) => {
-		postFetch("auth/sign_in", { email, password });
-	};
-	const handlRegister = (body) => {};
-	const handleSwitch = () => {
-		setAuth(false)
-		setHeaders({})
-		setUserData({})
-	};
 	const handleNavigate = () => navigate("/client");
+	const handleSwitch = () => {
+		setAuth(false);
+		setHeaders({});
+		setUserData({});
+	};
 
 	return (
 		<>
@@ -68,8 +61,8 @@ const Main = () => {
 								</>
 							) : (
 								<>
-									<LoginModal onSubmit={handleLogin} loading={loading} />
-									<RegisterModal onSubmit={handlRegister} loading={loading} />
+									<LoginModal />
+									<RegisterModal />
 								</>
 							)}
 						</Stack>

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "./Context";
-import React from "react";
 
 const useAuth = () => {
 	const { headers } = useContext(UserContext);
@@ -9,8 +8,13 @@ const useAuth = () => {
 		baseURL: "http://206.189.91.54/api/v1",
 		headers: headers,
 	});
-	return authToken
+	return authToken;
 };
 
+// this is how to call this
+//authToken
+//.get("/users")
+//.then((resp) => console.log(resp))
+//.catch((err) => console.log(err));
 
-export default useAuth
+export default useAuth;

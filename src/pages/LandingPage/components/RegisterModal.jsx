@@ -28,7 +28,6 @@ const RegisterModal = () => {
 	const toast = useToast();
 
 	const handleSubmit = () => {
-		console.log(name, email, passwordConfirm, password);
 		postRegister("auth", {
 			name,
 			email,
@@ -108,14 +107,14 @@ const RegisterModal = () => {
 						</>
 					)}
 				</ModalContent>
-			{success &&
-				toast({
-					title: "Account Created",
-					description: "You may now login using your account",
-					status: "success",
-					duration: 9000,
-					isClosable: true,
-				})}
+				{success &&
+					toast({
+						title: "Account Created",
+						description: "You may now login using your account",
+						status: "success",
+						duration: 9000,
+						isClosable: true,
+					})}
 			</Modal>
 		</>
 	);
