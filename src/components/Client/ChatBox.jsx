@@ -14,15 +14,17 @@ import { UserContext } from "utils/Context";
 import axios from "axios";
 const ChatBox = () => {
 	const [message, setMessage] = useState("");
-	const { selectedUser, headers, setSelectedUser } = useContext(UserContext);
+	const { chatList, selectedConversation, headers, } =
+		useContext(UserContext);
 
 	const handleSend = (e) => {
 		e.preventDefault();
+		console.log(selectedConversation);
 		axios
 			.post(
 				"http://206.189.91.54/api/v1/messages",
 				{
-					receiver_id: selectedUser.receiver_id,
+					receiver_id: selectedConversation.id,
 					receiver_class: "User",
 					body: message,
 				},
@@ -30,20 +32,6 @@ const ChatBox = () => {
 			)
 			.then((resp) => {
 				console.log("send: ");
-			})
-			.catch((err) => console.log(err));
-		axios
-			.get(
-				`http://206.189.91.54/api/v1/messages?receiver_id=${selectedUser.receiver_id}&receiver_class=User`,
-				{
-					headers: headers,
-				}
-			)
-			.then((resp) => {
-				console.log(resp.data.data);
-				setSelectedUser((state) => {
-					return { ...state, conversation: resp.data.data };
-				});
 			})
 			.catch((err) => console.log(err));
 		setMessage("");
@@ -67,21 +55,19 @@ const ChatBox = () => {
 					/>
 
 					<Flex alignItems="center" flex={2}>
-						<Heading fontSize={"md"}> {selectedUser.email} </Heading>
+						<Heading fontSize={"md"}> {selectedConversation.email} </Heading>
 					</Flex>
 					<SettingsIcon mr={4} />
 				</Flex>
 				<Box h={"90%"}>
 					<Box h={"90%"}>
-						{selectedUser.conversation &&
-							selectedUser.conversation.map((item) => {
-								
-								return item.receiver.id !== selectedUser.receiver_id ? (
-									<Box color={"yellow"}>{item.body}</Box>
-								) : (
-									<Box>{item.body}</Box>
-								);
-							})}
+						{chatList && chatList.map((item) => {
+							return item.receiver.id !== selectedConversation.id ? (
+								<Box color={"yellow"}>{item.body}</Box>
+							) : (
+								<Box>{item.body}</Box>
+							);
+						})}
 					</Box>
 					<FormControl h={"10%"} paddingY={1} paddingX={2}>
 						<Flex gap={2}>
