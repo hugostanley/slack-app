@@ -35,7 +35,7 @@ const ChatBox = () => {
 			.catch((err) => console.log(err));
 		setMessage("");
 	};
-	console.log(boxElem.current)
+	// this is to make chat box to start scrolling from the bottom
 	boxElem.current.scrollTop = boxElem.current.scrollHeight
 	
 	return (
