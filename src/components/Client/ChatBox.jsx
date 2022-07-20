@@ -65,6 +65,8 @@ const ChatBox = () => {
 								return item.receiver.id !== selectedConversation.id ? (
 									<Flex paddingX={5} justifyContent={"flex-start"}>
 										<Box
+											maxWidth='12rem'
+											overflowWrap={'break-word'}
 											bgColor={"white"}
 											width={"max-content"}
 											padding="1"
@@ -77,6 +79,8 @@ const ChatBox = () => {
 								) : (
 									<Flex paddingX={5} justifyContent={"flex-end"} my="1">
 										<Box
+											maxWidth='12rem'
+											overflowWrap={'break-word'}
 											bgColor={"yellow.200"}
 											width={"max-content"}
 											padding="1"
