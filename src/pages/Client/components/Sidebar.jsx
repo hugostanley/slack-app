@@ -4,6 +4,7 @@ import {
 	Box,
 	Flex,
 	GridItem,
+	Center,
 	Heading,
 	Input,
 	TabPanels,
@@ -12,6 +13,7 @@ import {
 	TabList,
 	Tab,
 	Avatar,
+	Spinner,
 } from "@chakra-ui/react";
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import { UserContext } from "utils/Context";
@@ -26,11 +28,14 @@ const SideBar = () => {
 	const [searchInput, setSearchInput] = useState("");
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [usersList, setUsersList] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	const getUsers = () => {
+		setLoading(true);
 		axios("http://206.189.91.54/api/v1/users", { headers: headers })
 			.then((resp) => {
 				setUsersList(resp.data.data);
+				setLoading(false);
 			})
 			.catch((err) => console.log(err));
 	};
@@ -104,23 +109,29 @@ const SideBar = () => {
 								overflow="auto"
 								overflowX="hidden"
 							>
-								{filteredUsers.map((item) => {
-									return (
-										<Flex
-											alignItems={"center"}
-											gap={"1"}
-											padding={2}
-											borderRadius="5"
-											cursor={"pointer"}
-											_hover={{ backgroundColor: "gray.300" }}
-											onClick={() => handleSelect(item)}
-											key={item.id}
-										>
-											<Avatar src="https://bit.ly/broken-link" size={"sm"} />
-											<p>{item.email}</p>
-										</Flex>
-									);
-								})}
+								{loading ? (
+									<Center h={'75vh'}>
+										<Spinner />
+									</Center>
+								) : (
+									filteredUsers.map((item) => {
+										return (
+											<Flex
+												alignItems={"center"}
+												gap={"1"}
+												padding={2}
+												borderRadius="5"
+												cursor={"pointer"}
+												_hover={{ backgroundColor: "gray.300" }}
+												onClick={() => handleSelect(item)}
+												key={item.id}
+											>
+												<Avatar src="https://bit.ly/broken-link" size={"sm"} />
+												<p>{item.email}</p>
+											</Flex>
+										);
+									})
+								)}
 							</Box>
 						</TabPanel>
 					</TabPanels>
