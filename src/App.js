@@ -17,7 +17,8 @@ const App = () => {
 		JSON.parse(localStorage.getItem("headers"))
 	);
 	const [auth, setAuth] = useState(JSON.parse(localStorage.getItem("auth")));
-	const [selectedUser, setSelectedUser] = useState({})
+	const [selectedConversation, setSelectedConversation] = useState({});
+	const [chatList, setChatList] = useState([]);
 
 	/* This useEffect happens whenever a state is being changed or manipulated */
 	/* What this does is it basically updates the local storage whenver there is a change in the states */
@@ -31,7 +32,18 @@ const App = () => {
 	/*Private route is to secure the website from being accessed even if you are logged out, if auth is true, can proceed to client page, else redirect to landing page*/
 	return (
 		<UserContext.Provider
-			value={{ userData, setUserData, auth, setAuth, headers, setHeaders , selectedUser, setSelectedUser}}
+			value={{
+				userData,
+				setUserData,
+				auth,
+				chatList,
+				setChatList,
+				setAuth,
+				headers,
+				setHeaders,
+				selectedConversation,
+				setSelectedConversation,
+			}}
 		>
 			<Routes>
 				<Route index path="/" element={<LandingPage />} />
