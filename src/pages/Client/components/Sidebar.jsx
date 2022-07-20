@@ -16,7 +16,8 @@ import {
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import { UserContext } from "utils/Context";
 const SideBar = () => {
-	const { headers,  setSelectedUser } = useContext(UserContext);
+	const { headers, setSelectedConversation, selectedConversation , chatList, setChatList} =
+		useContext(UserContext);
 	const [searchInput, setSearchInput] = useState("");
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [usersList, setUsersList] = useState([]);
@@ -25,7 +26,6 @@ const SideBar = () => {
 		axios("http://206.189.91.54/api/v1/users", { headers: headers })
 			.then((resp) => {
 				setUsersList(resp.data.data);
-				console.log(resp.data.data);
 			})
 			.catch((err) => console.log(err));
 	};
@@ -35,14 +35,31 @@ const SideBar = () => {
 			usersList.filter((val) => val.email.toLowerCase().includes(searchInput))
 		);
 	}, [searchInput]);
-	const handleSelect = (id, email) => {
-		setSelectedUser({
-			email,
-			receiver_id: id,
-			receiver_class: "User",
-			body: "",
+	const handleSelect = (item) => {
+		setSelectedConversation((state) => {
+			return {
+				...state,
+				email: item.email,
+				id: item.id,
+				receiver_class: "User",
+				body: "",
+			};
 		});
 	};
+
+	useEffect(() => {
+		axios
+			.get(
+				`http://206.189.91.54/api/v1/messages?receiver_id=${selectedConversation.id}&receiver_class=User`,
+				{
+					headers: headers,
+				}
+			)
+			.then((resp) => {
+				setChatList(resp.data.data);
+			})
+			.catch((err) => console.log(err));
+	}, [selectedConversation]);
 	return (
 		<>
 			<GridItem p={3} area={"nav"}>
@@ -89,7 +106,7 @@ const SideBar = () => {
 											borderRadius="5"
 											cursor={"pointer"}
 											_hover={{ backgroundColor: "gray.300" }}
-											onClick={() => handleSelect(item.id, item.email)}
+											onClick={() => handleSelect(item)}
 											key={item.id}
 										>
 											<Avatar src="https://bit.ly/broken-link" size={"sm"} />
