@@ -16,8 +16,13 @@ import {
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import { UserContext } from "utils/Context";
 const SideBar = () => {
-	const { headers, setSelectedConversation, selectedConversation , chatList, setChatList} =
-		useContext(UserContext);
+	const {
+		headers,
+		setSelectedConversation,
+		selectedConversation,
+		chatList,
+		setChatList,
+	} = useContext(UserContext);
 	const [searchInput, setSearchInput] = useState("");
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [usersList, setUsersList] = useState([]);
@@ -77,7 +82,9 @@ const SideBar = () => {
 					</TabList>
 					<TabPanels>
 						<TabPanel p={-5}>
+							{/*
 							<ChatsDropdown title={"Channels"} />
+							*/}
 							<ChatsDropdown title={"Direct Messages"} />
 						</TabPanel>
 						<TabPanel p={-5}>

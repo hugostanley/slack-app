@@ -16,73 +16,80 @@ import axios from "axios";
 const ChatsDropdown = ({ title }) => {
 	const [allUsers, setAllUsers] = useState([]);
 	const [filtered, setFiltered] = useState([]);
-	const { headers } = useContext(UserContext);
+	const { headers, setSelectedConversation, selectedConversation, userData } =
+		useContext(UserContext);
 
-	const getit = () => {
-		let newArr = [];
-		for (let i = 1500; i < allUsers.length; i++) {
-			let current = allUsers[i];
-			axios
-				.get(
-					`http://206.189.91.54/api/v1/messages?receiver_id=${current.id}&receiver_class=User`,
-					{ headers: headers }
-				)
-				.then((resp) => {
-					if (resp.data.data.length !== 0) {
-						if (
-							resp.data.data[0].receiver.email === "try@gmail.com" ||
-							resp.data.data[0].sender.email === "try@gmail.com"
-						) {
-							setFiltered((state) => {
-								return [...state, resp.data.data];
-							});
-							console.log("yo");
-						} else {
-							console.log("not this one");
+	const getit = (allUsers) => {
+		if (allUsers.length > 0) {
+			for (let i = allUsers.length - 500; i < allUsers.length; i++) {
+				let current = allUsers[i];
+				axios
+					.get(
+						`http://206.189.91.54/api/v1/messages?receiver_id=${current.id}&receiver_class=User`,
+						{ headers: headers }
+					)
+					.then((resp) => {
+						if (resp.data.data.length !== 0) {
+							if (
+								resp.data.data[0].receiver.email === "try@gmail.com" ||
+								resp.data.data[0].sender.email === "try@gmail.com"
+							) {
+								setFiltered((state) => {
+									return [...state, resp.data.data];
+								});
+								console.log("yo");
+							} else {
+								console.log("not this one");
+							}
 						}
-					}
-				})
-				.catch();
+					})
+					.catch();
+			}
 		}
 	};
+	/*
 	useEffect(() => {
-		console.log("hello");
 		axios
 			.get("http://206.189.91.54/api/v1/users", { headers: headers })
 			.then((resp) => {
 				setAllUsers(resp.data.data);
-				console.log(resp.data.data);
+				getit(resp.data.data);
 			})
 			.catch((err) => console.log(err));
 
-		/*
-		axios
-			.get(
-				`http://206.189.91.54/api/v1/messages?receiver_id=${2398}&receiver_class=User`,
-				{ headers: headers }
-			)
-			.then((resp) => {
-				console.log(resp.data.data);
-			})
-			.catch((err) => console.log(err));
-			*/
 	}, []);
-
-	/*
-						`http://206.189.91.54/api/v1/messages?receiver_id=${item.id}&receiver_class=User`,
-						{ headers: headers }
-		* */
+	*/
+	const handleSelect = (email, id) => {
+	console.log('hello')
+		setSelectedConversation((state) => {
+			return {
+				...state,
+				email: email,
+				id: id,
+				receiver_class: "User",
+				body: "",
+			};
+		});
+	};
+	 const handleit =()=> {
+		axios
+			.get("http://206.189.91.54/api/v1/users", { headers: headers })
+			.then((resp) => {
+				setAllUsers(resp.data.data);
+				getit(resp.data.data);
+			})
+			.catch((err) => console.log(err));
+	 }
 
 	useEffect(() => {
-		console.log(filtered);
-	}, [filtered]);
-
+		console.log(selectedConversation);
+	}, [selectedConversation]);
 	return (
-		<Accordion defaultIndex={[0]} allowMultiple >
+		<Accordion defaultIndex={[0]} allowMultiple>
 			<AccordionItem borderTop={"none"}>
 				<AccordionButton _hover={{ background: "none" }} paddingX="1" mt={1}>
 					<Box flex="1" textAlign="left">
-						<Text fontWeight={"bold"} fontSize={"sm"}>
+						<Text onClick={handleit} fontWeight={"bold"} fontSize={"sm"}>
 							{title}
 						</Text>
 					</Box>
@@ -92,27 +99,25 @@ const ChatsDropdown = ({ title }) => {
 					<Flex gap={1} flexDir={"column"}>
 						{filtered &&
 							filtered.map((item) => {
+								let id =
+									item[0].receiver.id === userData.data.id
+										? item[0].sender.id
+										: item[0].receiver.id;
+
+								let email =
+									item[0].receiver.email === userData.data.email
+										? item[0].sender.email
+										: item[0].receiver.email;
 								return (
 									<ChatsItem
 										source={"https://bit.ly/dan-abramov"}
-										name={'try'}
+										name={email}
+										handleSelect={handleSelect}
+										email={email}
+										id={id}
 									/>
 								);
 							})}
-						{/*
-						<ChatsItem
-							source={"https://bit.ly/dan-abramov"}
-							name={"Stanley Hugo"}
-						/>
-						<ChatsItem
-							source={"https://bit.ly/tioluwani-kolawole"}
-							name={"Jonathan Smith"}
-						/>
-						<ChatsItem
-							source={"https://bit.ly/kent-c-dodds"}
-							name={"Jonathan Smith"}
-						/>
-						*/}
 					</Flex>
 				</AccordionPanel>
 			</AccordionItem>
