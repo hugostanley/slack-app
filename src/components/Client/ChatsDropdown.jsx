@@ -69,16 +69,21 @@ const ChatsDropdown = ({ title }) => {
 		});
 	};
 
-	useEffect(() => {
-		console.log(selectedConversation);
-	}, [selectedConversation]);
+	const handleit = () => {
+		axios
+			.get("http://206.189.91.54/api/v1/users", { headers: headers })
+			.then((resp) => {
+				getit(resp.data.data);
+			})
+			.catch((err) => console.log(err));
+	};
 
 	return (
 		<Accordion defaultIndex={[0]} allowMultiple>
 			<AccordionItem borderTop={"none"}>
 				<AccordionButton _hover={{ background: "none" }} paddingX="1" mt={1}>
 					<Box flex="1" textAlign="left">
-						<Text fontWeight={"bold"} fontSize={"sm"}>
+						<Text onClick={handleit} fontWeight={"bold"} fontSize={"sm"}>
 							{title}
 						</Text>
 					</Box>
@@ -104,6 +109,7 @@ const ChatsDropdown = ({ title }) => {
 										handleSelect={handleSelect}
 										email={email}
 										id={id}
+										key={id}
 									/>
 								);
 							})}
