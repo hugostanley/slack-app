@@ -12,10 +12,12 @@ import {
 import { SettingsIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { UserContext } from "utils/Context";
 import axios from "axios";
+
 const ChatBox = () => {
 	const [message, setMessage] = useState("");
 	const { chatList, selectedConversation, headers } = useContext(UserContext);
 	const boxElem = useRef();
+
 	const handleSend = (e) => {
 		e.preventDefault();
 		console.log(selectedConversation);
@@ -35,9 +37,13 @@ const ChatBox = () => {
 			.catch((err) => console.log(err));
 		setMessage("");
 	};
+
 	// this is to make chat box to start scrolling from the bottom
-	boxElem.current.scrollTop = boxElem.current.scrollHeight
-	
+	console.log(boxElem)
+	if(boxElem.current) {
+	boxElem.current.scrollTop = boxElem.current.scrollHeight;
+	}
+
 	return (
 		<>
 			<GridItem bg={"gray.300"} area={"main"}>

@@ -14,7 +14,6 @@ import { UserContext } from "utils/Context";
 import axios from "axios";
 
 const ChatsDropdown = ({ title }) => {
-	const [allUsers, setAllUsers] = useState([]);
 	const [filtered, setFiltered] = useState([]);
 	const { headers, setSelectedConversation, selectedConversation, userData } =
 		useContext(UserContext);
@@ -52,7 +51,6 @@ const ChatsDropdown = ({ title }) => {
 		axios
 			.get("http://206.189.91.54/api/v1/users", { headers: headers })
 			.then((resp) => {
-				setAllUsers(resp.data.data);
 				getit(resp.data.data);
 			})
 			.catch((err) => console.log(err));
@@ -60,7 +58,6 @@ const ChatsDropdown = ({ title }) => {
 	}, []);
 	*/
 	const handleSelect = (email, id) => {
-	console.log('hello')
 		setSelectedConversation((state) => {
 			return {
 				...state,
@@ -71,25 +68,17 @@ const ChatsDropdown = ({ title }) => {
 			};
 		});
 	};
-	 const handleit =()=> {
-		axios
-			.get("http://206.189.91.54/api/v1/users", { headers: headers })
-			.then((resp) => {
-				setAllUsers(resp.data.data);
-				getit(resp.data.data);
-			})
-			.catch((err) => console.log(err));
-	 }
 
 	useEffect(() => {
 		console.log(selectedConversation);
 	}, [selectedConversation]);
+
 	return (
 		<Accordion defaultIndex={[0]} allowMultiple>
 			<AccordionItem borderTop={"none"}>
 				<AccordionButton _hover={{ background: "none" }} paddingX="1" mt={1}>
 					<Box flex="1" textAlign="left">
-						<Text onClick={handleit} fontWeight={"bold"} fontSize={"sm"}>
+						<Text fontWeight={"bold"} fontSize={"sm"}>
 							{title}
 						</Text>
 					</Box>
