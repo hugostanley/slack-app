@@ -15,6 +15,7 @@ import axios from "axios";
 
 const ChatsDropdown = ({ title }) => {
 	const [filtered, setFiltered] = useState([]);
+	const [allUsers, setAllUsers] = useState([])
 	const { headers, setSelectedConversation, selectedConversation, userData } =
 		useContext(UserContext);
 
@@ -30,9 +31,12 @@ const ChatsDropdown = ({ title }) => {
 					.then((resp) => {
 						if (resp.data.data.length !== 0) {
 							if (
-								resp.data.data[0].receiver.email === "try@gmail.com" ||
-								resp.data.data[0].sender.email === "try@gmail.com"
+								resp.data.data[0].receiver.email === userData.data.email ||
+								resp.data.data[0].sender.email === userData.data.email
 							) {
+								setAllUsers((state)=>{
+									return state.filter((item)=> item !== current)
+								})
 								setFiltered((state) => {
 									return [...state, resp.data.data];
 								});
@@ -51,7 +55,7 @@ const ChatsDropdown = ({ title }) => {
 		axios
 			.get("http://206.189.91.54/api/v1/users", { headers: headers })
 			.then((resp) => {
-				getit(resp.data.data);
+			setAllUsers(resp.data.data)
 			})
 			.catch((err) => console.log(err));
 
@@ -69,21 +73,17 @@ const ChatsDropdown = ({ title }) => {
 		});
 	};
 
-	const handleit = () => {
-		axios
-			.get("http://206.189.91.54/api/v1/users", { headers: headers })
-			.then((resp) => {
-				getit(resp.data.data);
-			})
-			.catch((err) => console.log(err));
-	};
-
+	/*
+	useEffect(()=>{
+		getit(allUsers)
+	},[allUsers])
+	*/
 	return (
 		<Accordion defaultIndex={[0]} allowMultiple>
 			<AccordionItem borderTop={"none"}>
 				<AccordionButton _hover={{ background: "none" }} paddingX="1" mt={1}>
 					<Box flex="1" textAlign="left">
-						<Text onClick={handleit} fontWeight={"bold"} fontSize={"sm"}>
+						<Text  fontWeight={"bold"} fontSize={"sm"}>
 							{title}
 						</Text>
 					</Box>
