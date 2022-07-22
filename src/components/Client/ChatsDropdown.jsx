@@ -38,7 +38,7 @@ const ChatsDropdown = ({ title }) => {
 					</Box>
 					<AccordionIcon />
 				</AccordionButton>
-				<AccordionPanel pl={1}>
+				<AccordionPanel pl={1} maxH='35vh' overflowY={'auto'}>
 					<Flex gap={1} flexDir={"column"}>
 						{filtered &&
 							filtered.map((item, index) => {

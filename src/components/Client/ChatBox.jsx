@@ -8,6 +8,7 @@ import {
 	Textarea,
 	FormControl,
 	IconButton,
+    Text,
 } from "@chakra-ui/react";
 import { SettingsIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { UserContext, ConvoContext } from "utils/Context";
@@ -78,7 +79,8 @@ const ChatBox = () => {
 						{chatList &&
 							chatList.map((item, index) => {
 								return item.receiver.id !== selectedConversation.id ? (
-									<Flex paddingX={5} justifyContent={"flex-start"} key={index}>
+									<Flex my={'1'} paddingX={5} justifyContent={"flex-start"}  key={index} gap='3' alignItems='center'>
+										<Avatar name={item.sender.email.charAt(0)} src="https//broken" size='sm' />
 										<Box
 											maxWidth="12rem"
 											overflowWrap={"break-word"}
@@ -92,7 +94,7 @@ const ChatBox = () => {
 										</Box>
 									</Flex>
 								) : (
-									<Flex paddingX={5} justifyContent={"flex-end"} my="1">
+									<Flex paddingX={5} justifyContent={"flex-end"} my="0.5">
 										<Box
 											maxWidth="12rem"
 											overflowWrap={"break-word"}

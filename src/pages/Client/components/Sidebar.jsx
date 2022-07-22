@@ -14,10 +14,14 @@ import {
 	Tab,
 	Avatar,
 	Spinner,
+    Button,
 } from "@chakra-ui/react";
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import ChannelsDropdown from "./ChannelsDropdown";
 import { UserContext, ConvoContext } from "utils/Context";
+import { PlusSquareIcon } from "@chakra-ui/icons";
+import NewChannelModal from "./NewChannelModal";
+
 const SideBar = () => {
 	const { headers } = useContext(UserContext);
 	const { setSelectedConversation, chatList, allUsers } = useContext(ConvoContext);
@@ -50,6 +54,7 @@ const SideBar = () => {
 					<Heading as={"h2"} size="md" marginLeft={2}>
 						Chats
 					</Heading>
+					<NewChannelModal />
 				</Flex>
 				<Tabs>
 					<TabList>
