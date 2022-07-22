@@ -10,56 +10,46 @@ import {
 	Flex,
 } from "@chakra-ui/react";
 import ChatsItem from "../Client/ChatsPanelItem";
-import { UserContext } from "utils/Context";
+import { UserContext, ConvoContext } from "utils/Context";
+
 import axios from "axios";
 
 const ChatsDropdown = ({ title }) => {
-	const [filtered, setFiltered] = useState([]);
-	const [allUsers, setAllUsers] = useState([])
 	const { headers, setSelectedConversation, selectedConversation, userData } =
 		useContext(UserContext);
-
+	const { allUsers, filtered } = useContext(ConvoContext);
+	const [loading, setLoading] = useState(false);
+/*
 	const getit = (allUsers) => {
-		if (allUsers.length > 0) {
-			for (let i = allUsers.length - 500; i < allUsers.length; i++) {
-				let current = allUsers[i];
-				axios
-					.get(
-						`http://206.189.91.54/api/v1/messages?receiver_id=${current.id}&receiver_class=User`,
-						{ headers: headers }
-					)
-					.then((resp) => {
-						if (resp.data.data.length !== 0) {
-							if (
-								resp.data.data[0].receiver.email === userData.data.email ||
-								resp.data.data[0].sender.email === userData.data.email
-							) {
-								setAllUsers((state)=>{
-									return state.filter((item)=> item !== current)
-								})
-								setFiltered((state) => {
-									return [...state, resp.data.data];
-								});
-								console.log("yo");
-							} else {
-								console.log("not this one");
-							}
+		console.log(allUsers.length);
+		for (let i = allUsers.length - 1500; i < allUsers.length; i++) {
+			let current = allUsers[i];
+			axios
+				.get(
+					`http://206.189.91.54/api/v1/messages?receiver_id=${current.id}&receiver_class=User`,
+					{ headers: headers }
+				)
+				.then((resp) => {
+					if (resp.data.data.length !== 0) {
+						if (
+							resp.data.data[0].receiver.email === userData.data.email ||
+							resp.data.data[0].sender.email === userData.data.email
+						) {
+							setFiltered((state) => {
+								return [...state, resp.data.data];
+							});
+							console.log("yo", i);
+						} else {
+							console.log("not this one");
 						}
-					})
-					.catch();
-			}
+					}
+				})
+				.catch((resp) => {
+					console.log(resp);
+				});
 		}
+		console.log("done");
 	};
-	/*
-	useEffect(() => {
-		axios
-			.get("http://206.189.91.54/api/v1/users", { headers: headers })
-			.then((resp) => {
-			setAllUsers(resp.data.data)
-			})
-			.catch((err) => console.log(err));
-
-	}, []);
 	*/
 	const handleSelect = (email, id) => {
 		setSelectedConversation((state) => {
@@ -72,18 +62,19 @@ const ChatsDropdown = ({ title }) => {
 			};
 		});
 	};
-
-	/*
-	useEffect(()=>{
-		getit(allUsers)
-	},[allUsers])
+/*
+	useEffect(() => {
+		if (allUsers.length > 0) {
+			getit(allUsers);
+		}
+	}, [allUsers]);
 	*/
 	return (
 		<Accordion defaultIndex={[0]} allowMultiple>
 			<AccordionItem borderTop={"none"}>
 				<AccordionButton _hover={{ background: "none" }} paddingX="1" mt={1}>
 					<Box flex="1" textAlign="left">
-						<Text  fontWeight={"bold"} fontSize={"sm"}>
+						<Text fontWeight={"bold"} fontSize={"sm"}>
 							{title}
 						</Text>
 					</Box>
@@ -91,7 +82,7 @@ const ChatsDropdown = ({ title }) => {
 				</AccordionButton>
 				<AccordionPanel pl={1}>
 					<Flex gap={1} flexDir={"column"}>
-						{filtered &&
+						{ filtered&&
 							filtered.map((item) => {
 								let id =
 									item[0].receiver.id === userData.data.id
