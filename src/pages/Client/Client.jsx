@@ -8,8 +8,8 @@ import axios from "axios";
 const Client = () => {
 	const { headers, userData } = useContext(UserContext);
 	const [allUsers, setAllUsers] = useState([]);
-
 	const [filtered, setFiltered] = useState([]);
+	const [channels, setChannels] = useState([]);
 
 	const getConvo = (allUsers) => {
 		console.log(allUsers.length);
@@ -37,6 +37,7 @@ const Client = () => {
 				})
 				.catch();
 		}
+		axios.get()
 	};
 
 	useEffect(() => {
@@ -47,6 +48,14 @@ const Client = () => {
 					setAllUsers((state) => {
 						return [...state, { email: item.email, id: item.id }];
 					});
+				});
+			})
+			.catch();
+		axios
+			.get("http://206.189.91.54/api/v1/channels", { headers: headers })
+			.then((resp) => {
+				setChannels((state) => {
+					return [...state, resp.data.data];
 				});
 			})
 			.catch();
@@ -65,7 +74,7 @@ const Client = () => {
 	}, []);
 	*/
 	return (
-		<ConvoContext.Provider value={{ allUsers, filtered }}>
+		<ConvoContext.Provider value={{ allUsers, filtered, channels }}>
 			<Grid
 				templateAreas={`"nav main"`}
 				gridTemplateColumns={"25vw 75vw"}

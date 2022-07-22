@@ -16,6 +16,7 @@ import {
 	Spinner,
 } from "@chakra-ui/react";
 import ChatsDropdown from "components/Client/ChatsDropdown";
+import ChannelsDropdown from "./ChannelsDropdown";
 import { UserContext } from "utils/Context";
 const SideBar = () => {
 	const {
@@ -87,9 +88,7 @@ const SideBar = () => {
 					</TabList>
 					<TabPanels>
 						<TabPanel p={-5}>
-							{/*
-							<ChatsDropdown title={"Channels"} />
-							*/}
+							<ChannelsDropdown title={"Channels"} />
 							<ChatsDropdown title={"Direct Messages"} />
 						</TabPanel>
 						<TabPanel p={-5}>

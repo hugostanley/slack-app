@@ -12,45 +12,11 @@ import {
 import ChatsItem from "../Client/ChatsPanelItem";
 import { UserContext, ConvoContext } from "utils/Context";
 
-import axios from "axios";
 
 const ChatsDropdown = ({ title }) => {
 	const { headers, setSelectedConversation, selectedConversation, userData } =
 		useContext(UserContext);
 	const { allUsers, filtered } = useContext(ConvoContext);
-	const [loading, setLoading] = useState(false);
-/*
-	const getit = (allUsers) => {
-		console.log(allUsers.length);
-		for (let i = allUsers.length - 1500; i < allUsers.length; i++) {
-			let current = allUsers[i];
-			axios
-				.get(
-					`http://206.189.91.54/api/v1/messages?receiver_id=${current.id}&receiver_class=User`,
-					{ headers: headers }
-				)
-				.then((resp) => {
-					if (resp.data.data.length !== 0) {
-						if (
-							resp.data.data[0].receiver.email === userData.data.email ||
-							resp.data.data[0].sender.email === userData.data.email
-						) {
-							setFiltered((state) => {
-								return [...state, resp.data.data];
-							});
-							console.log("yo", i);
-						} else {
-							console.log("not this one");
-						}
-					}
-				})
-				.catch((resp) => {
-					console.log(resp);
-				});
-		}
-		console.log("done");
-	};
-	*/
 	const handleSelect = (email, id) => {
 		setSelectedConversation((state) => {
 			return {
@@ -62,13 +28,6 @@ const ChatsDropdown = ({ title }) => {
 			};
 		});
 	};
-/*
-	useEffect(() => {
-		if (allUsers.length > 0) {
-			getit(allUsers);
-		}
-	}, [allUsers]);
-	*/
 	return (
 		<Accordion defaultIndex={[0]} allowMultiple>
 			<AccordionItem borderTop={"none"}>
