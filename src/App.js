@@ -17,8 +17,6 @@ const App = () => {
 		JSON.parse(localStorage.getItem("headers"))
 	);
 	const [auth, setAuth] = useState(JSON.parse(localStorage.getItem("auth")));
-	const [selectedConversation, setSelectedConversation] = useState({});
-	const [chatList, setChatList] = useState([]);
 
 	/* This useEffect happens whenever a state is being changed or manipulated */
 	/* What this does is it basically updates the local storage whenver there is a change in the states */
@@ -36,13 +34,9 @@ const App = () => {
 				userData,
 				setUserData,
 				auth,
-				chatList,
-				setChatList,
 				setAuth,
 				headers,
 				setHeaders,
-				selectedConversation,
-				setSelectedConversation,
 			}}
 		>
 			<Routes>
