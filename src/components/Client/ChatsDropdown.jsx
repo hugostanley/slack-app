@@ -12,11 +12,10 @@ import {
 import ChatsItem from "../Client/ChatsPanelItem";
 import { UserContext, ConvoContext } from "utils/Context";
 
-
 const ChatsDropdown = ({ title }) => {
-	const { headers, setSelectedConversation, selectedConversation, userData } =
-		useContext(UserContext);
-	const { allUsers, filtered } = useContext(ConvoContext);
+	const { headers, userData } = useContext(UserContext);
+	const { allUsers, filtered, setSelectedConversation, selectedConversation } =
+		useContext(ConvoContext);
 	const handleSelect = (email, id) => {
 		setSelectedConversation((state) => {
 			return {
@@ -41,7 +40,7 @@ const ChatsDropdown = ({ title }) => {
 				</AccordionButton>
 				<AccordionPanel pl={1}>
 					<Flex gap={1} flexDir={"column"}>
-						{ filtered&&
+						{filtered &&
 							filtered.map((item) => {
 								let id =
 									item[0].receiver.id === userData.data.id
@@ -60,6 +59,7 @@ const ChatsDropdown = ({ title }) => {
 										email={email}
 										id={id}
 										key={id}
+										message={item[item.length-1].body}
 									/>
 								);
 							})}
