@@ -15,11 +15,13 @@ import {
 	Wrap,
 	WrapItem,
 	Center,
+	Alert,
+	AlertIcon,
 } from "@chakra-ui/react";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import { ConvoContext, UserContext } from "utils/Context";
 import axios from "axios";
-
+import ProgressModal from "pages/LandingPage/components/ProgressModal";
 const NewChannelModal = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [channelName, setChannelName] = useState("");
@@ -28,9 +30,9 @@ const NewChannelModal = () => {
 	const [selectedUsers, setSelectedUsers] = useState([]);
 	const { allUsers } = useContext(ConvoContext);
 	const { headers, userData } = useContext(UserContext);
-
+	const [loading, setLoading] = useState(false);
 	const [newList, setNewList] = useState([]);
-
+	const [success, setsuccess] = useState(false);
 	useEffect(() => {
 		setNewList((state) => [...allUsers]);
 	}, [allUsers]);
@@ -55,6 +57,7 @@ const NewChannelModal = () => {
 	};
 
 	const handleClick = () => {
+		setLoading(true);
 		let ids = selectedUsers.flatMap(Object.values).filter((item, index) => {
 			return index % 2 !== 0;
 		});
@@ -70,15 +73,22 @@ const NewChannelModal = () => {
 				{ headers }
 			)
 			.then((resp) => {
-				console.log(resp);
+				setLoading(false);
+				setsuccess(true);
 			})
 			.catch((err) => {
 				console.log(err);
+			})
+			.finally(() => {
+				setLoading(false);
+				setNewList((state) => [...allUsers]);
+				setSelectedUsers([]);
+				setChannelName("");
+				setInterval(() => {
+					setsuccess(false);
+				}, 2000);
 			});
 	};
-	useEffect(() => {
-		console.log(newList);
-	}, [newList]);
 	return (
 		<>
 			<Button size={"3xs"} bgColor="transparent" onClick={onOpen}>
@@ -90,57 +100,70 @@ const NewChannelModal = () => {
 					<ModalHeader>New Channel</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<FormControl>
-							<FormLabel htmlFor="channel">Channel Name </FormLabel>
-							<Input
-								id="channel"
-								value={channelName}
-								onChange={(e) => setChannelName(e.target.value)}
-							/>
-							<FormLabel htmlFor="searchInput"> Add Users </FormLabel>
-							<Flex gap={"3"}>
+						{loading ? (
+							<ProgressModal />
+						) : (
+							<FormControl>
+								<FormLabel htmlFor="channel">Channel Name </FormLabel>
 								<Input
-									id="searchInput"
-									value={searchInput}
-									onChange={(e) => setSearchInput(e.target.value)}
-									list="users"
+									id="channel"
+									value={channelName}
+									onChange={(e) => setChannelName(e.target.value)}
 								/>
-								<datalist id="users">
-									{filteredUsers &&
-										filteredUsers.map((item) => {
-											return <option value={item.email} />;
+								<FormLabel htmlFor="searchInput" mt={"2"}>
+									{" "}
+									Add Users{" "}
+								</FormLabel>
+								<Flex gap={"3"}>
+									<Input
+										id="searchInput"
+										value={searchInput}
+										onChange={(e) => setSearchInput(e.target.value)}
+										list="users"
+									/>
+									<datalist id="users">
+										{filteredUsers &&
+											filteredUsers.map((item) => {
+												return <option value={item.email} />;
+											})}
+									</datalist>
+									<Button colorScheme={"yellow"} onClick={handleAdd}>
+										{" "}
+										+
+									</Button>
+								</Flex>
+								<Wrap mt={"5"}>
+									{selectedUsers &&
+										selectedUsers.map((item) => {
+											return (
+												<WrapItem>
+													<Center
+														borderRadius={"7"}
+														px="2"
+														bgColor={"gray.200"}
+														h={"2rem"}
+														width={"max-content"}
+													>
+														{item.email}
+													</Center>
+												</WrapItem>
+											);
 										})}
-								</datalist>
-								<Button colorScheme={"yellow"} onClick={handleAdd}>
-									{" "}
-									+
-								</Button>
-							</Flex>
-							<Wrap mt={"5"}>
-								{selectedUsers &&
-									selectedUsers.map((item) => {
-										return (
-											<WrapItem>
-												<Center
-													borderRadius={"7"}
-													px="2"
-													bgColor={"gray.200"}
-													h={"2rem"}
-													width={"max-content"}
-												>
-													{item.email}
-												</Center>
-											</WrapItem>
-										);
-									})}
-							</Wrap>
-							<Center mt={"3"}>
-								<Button onClick={handleClick}  colorScheme={"yellow"}>
-									{" "}
-									Create{" "}
-								</Button>
-							</Center>
-						</FormControl>
+								</Wrap>
+								<Center mt={"3"}>
+									<Button onClick={handleClick} colorScheme={"yellow"}>
+										{" "}
+										Create{" "}
+									</Button>
+								</Center>
+							</FormControl>
+						)}
+						{success && (
+							<Alert status="success" marginTop={"5"}>
+								<AlertIcon />
+								Channel Created!
+							</Alert>
+						)}
 					</ModalBody>
 				</ModalContent>
 			</Modal>

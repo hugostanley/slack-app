@@ -14,7 +14,6 @@ const Client = () => {
 	const [chatList, setChatList] = useState([]);
 
 	const getConvo = (allUsers) => {
-		console.log(allUsers);
 		for (let i = allUsers.length - 1000; i < allUsers.length; i++) {
 			let current = allUsers[i];
 			axios
