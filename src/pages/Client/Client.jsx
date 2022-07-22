@@ -10,9 +10,11 @@ const Client = () => {
 	const [allUsers, setAllUsers] = useState([]);
 	const [filtered, setFiltered] = useState([]);
 	const [channels, setChannels] = useState([]);
+	const [selectedConversation, setSelectedConversation] = useState({});
+	const [chatList, setChatList] = useState([]);
 
 	const getConvo = (allUsers) => {
-		console.log(allUsers.length);
+		console.log(allUsers)
 		for (let i = allUsers.length - 1300; i < allUsers.length; i++) {
 			let current = allUsers[i];
 			axios
@@ -37,7 +39,6 @@ const Client = () => {
 				})
 				.catch();
 		}
-		axios.get()
 	};
 
 	useEffect(() => {
@@ -51,12 +52,11 @@ const Client = () => {
 				});
 			})
 			.catch();
+
 		axios
 			.get("http://206.189.91.54/api/v1/channels", { headers: headers })
 			.then((resp) => {
-				setChannels((state) => {
-					return [...state, resp.data.data];
-				});
+				setChannels(resp.data.data);
 			})
 			.catch();
 	}, [headers]);
@@ -66,15 +66,33 @@ const Client = () => {
 			getConvo(allUsers);
 		}
 	}, [allUsers]);
-	/*
+
 	useEffect(() => {
-		if (filtered.length > 0) {
-			console.log("true");
-		}
-	}, []);
-	*/
+		axios
+			.get(
+				`http://206.189.91.54/api/v1/messages?receiver_id=${selectedConversation.id}&receiver_class=User`,
+				{
+					headers: headers,
+				}
+			)
+			.then((resp) => {
+				setChatList(resp.data.data);
+			})
+			.catch((err) => console.log(err));
+	}, [selectedConversation]);
+
 	return (
-		<ConvoContext.Provider value={{ allUsers, filtered, channels }}>
+		<ConvoContext.Provider
+			value={{
+				allUsers,
+				filtered,
+				channels,
+				setChatList,
+				chatList,
+				selectedConversation,
+				setSelectedConversation,
+			}}
+		>
 			<Grid
 				templateAreas={`"nav main"`}
 				gridTemplateColumns={"25vw 75vw"}
