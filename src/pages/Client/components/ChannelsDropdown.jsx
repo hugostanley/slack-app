@@ -12,7 +12,18 @@ import {
 import ChatsPanel from "components/Client/ChatsPanelItem";
 import { ConvoContext } from "utils/Context";
 const ChannelsDropdown = () => {
-	const { channels } = useContext(ConvoContext);
+	const { channels, setSelectedConversation } = useContext(ConvoContext);
+	const handleSelect = (item) => {
+		setSelectedConversation((state) => {
+			return {
+				...state,
+				email: item.name,
+				id: item.id,
+				receiver_class: item.type,
+				body: "",
+			};
+		});
+	};
 	return (
 		<Accordion defaultIndex={[0]} allowMultiple>
 			<AccordionItem borderTop={"none"}>
@@ -26,16 +37,17 @@ const ChannelsDropdown = () => {
 				</AccordionButton>
 				<AccordionPanel pl={1}>
 					<Flex gap={1} flexDir={"column"}>
-						{/*
-									<ChatsPanel
-										source={"https://bit.ly/dan-abramov"}
-										name={email}
-										handleSelect={handleSelect}
-										email={email}
-										id={id}
-										key={id}
-									/>
-						*/}
+						{channels.map((item, index) => {
+							return (
+								<ChatsPanel
+									key={index}
+									type={"Channel"}
+									name={item.name.replace(/['"]+/g, "")}
+									id={item.id}
+									handleSelect={handleSelect}
+								/>
+							);
+						})}
 					</Flex>
 				</AccordionPanel>
 			</AccordionItem>

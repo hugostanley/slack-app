@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
 	Box,
 	GridItem,
@@ -10,12 +10,13 @@ import {
 	IconButton,
 } from "@chakra-ui/react";
 import { SettingsIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import { UserContext } from "utils/Context";
+import { UserContext, ConvoContext } from "utils/Context";
 import axios from "axios";
 
 const ChatBox = () => {
 	const [message, setMessage] = useState("");
-	const { chatList, selectedConversation, headers } = useContext(UserContext);
+	const { headers } = useContext(UserContext);
+	const { chatList, selectedConversation } = useContext(ConvoContext);
 	const boxElem = useRef();
 
 	const handleSend = (e) => {
@@ -39,10 +40,9 @@ const ChatBox = () => {
 	};
 
 	// this is to make chat box to start scrolling from the bottom
-	if(boxElem.current) {
-	boxElem.current.scrollTop = boxElem.current.scrollHeight;
+	if (boxElem.current) {
+		boxElem.current.scrollTop = boxElem.current.scrollHeight;
 	}
-
 	return (
 		<>
 			<GridItem bg={"gray.300"} area={"main"}>
@@ -76,9 +76,9 @@ const ChatBox = () => {
 						ref={boxElem}
 					>
 						{chatList &&
-							chatList.map((item) => {
+							chatList.map((item, index) => {
 								return item.receiver.id !== selectedConversation.id ? (
-									<Flex paddingX={5} justifyContent={"flex-start"}>
+									<Flex paddingX={5} justifyContent={"flex-start"} key={index}>
 										<Box
 											maxWidth="12rem"
 											overflowWrap={"break-word"}

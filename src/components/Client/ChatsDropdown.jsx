@@ -16,13 +16,13 @@ const ChatsDropdown = ({ title }) => {
 	const { headers, userData } = useContext(UserContext);
 	const { allUsers, filtered, setSelectedConversation, selectedConversation } =
 		useContext(ConvoContext);
-	const handleSelect = (email, id) => {
+	const handleSelect = (item) => {
 		setSelectedConversation((state) => {
 			return {
 				...state,
-				email: email,
-				id: id,
-				receiver_class: "User",
+				email: item.email,
+				id: item.id,
+				receiver_class: item.type,
 				body: "",
 			};
 		});
@@ -41,7 +41,7 @@ const ChatsDropdown = ({ title }) => {
 				<AccordionPanel pl={1}>
 					<Flex gap={1} flexDir={"column"}>
 						{filtered &&
-							filtered.map((item) => {
+							filtered.map((item, index) => {
 								let id =
 									item[0].receiver.id === userData.data.id
 										? item[0].sender.id
@@ -58,7 +58,7 @@ const ChatsDropdown = ({ title }) => {
 										handleSelect={handleSelect}
 										email={email}
 										id={id}
-										key={id}
+										key={index}
 										message={item[item.length-1].body}
 									/>
 								);

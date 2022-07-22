@@ -17,60 +17,32 @@ import {
 } from "@chakra-ui/react";
 import ChatsDropdown from "components/Client/ChatsDropdown";
 import ChannelsDropdown from "./ChannelsDropdown";
-import { UserContext } from "utils/Context";
+import { UserContext, ConvoContext } from "utils/Context";
 const SideBar = () => {
-	const {
-		headers,
-		setSelectedConversation,
-		selectedConversation,
-		chatList,
-		setChatList,
-	} = useContext(UserContext);
+	const { headers } = useContext(UserContext);
+	const { setSelectedConversation, chatList, allUsers } = useContext(ConvoContext);
 	const [searchInput, setSearchInput] = useState("");
 	const [filteredUsers, setFilteredUsers] = useState([]);
-	const [usersList, setUsersList] = useState([]);
 	const [loading, setLoading] = useState(false);
 
-	const getUsers = () => {
-		setLoading(true);
-		axios("http://206.189.91.54/api/v1/users", { headers: headers })
-			.then((resp) => {
-				setUsersList(resp.data.data);
-				setLoading(false);
-			})
-			.catch((err) => console.log(err));
-	};
-
-	useEffect(() => {
-		setFilteredUsers(
-			usersList.filter((val) => val.email.toLowerCase().includes(searchInput))
-		);
-	}, [searchInput]);
 	const handleSelect = (item) => {
 		setSelectedConversation((state) => {
 			return {
 				...state,
 				email: item.email,
 				id: item.id,
-				receiver_class: "User",
+				receiver_class: item.type,
 				body: "",
 			};
 		});
 	};
 
 	useEffect(() => {
-		axios
-			.get(
-				`http://206.189.91.54/api/v1/messages?receiver_id=${selectedConversation.id}&receiver_class=User`,
-				{
-					headers: headers,
-				}
-			)
-			.then((resp) => {
-				setChatList(resp.data.data);
-			})
-			.catch((err) => console.log(err));
-	}, [selectedConversation]);
+		setFilteredUsers(
+			allUsers.filter((val) => val.email.toLowerCase().includes(searchInput))
+		);
+	}, [searchInput]);
+
 	return (
 		<>
 			<GridItem p={3} area={"nav"}>
@@ -82,7 +54,7 @@ const SideBar = () => {
 				<Tabs>
 					<TabList>
 						<Tab fontSize={"xs"}>Messages</Tab>
-						<Tab fontSize={"xs"} onClick={getUsers}>
+						<Tab fontSize={"xs"} >
 							Search
 						</Tab>
 					</TabList>
@@ -109,7 +81,7 @@ const SideBar = () => {
 								overflowX="hidden"
 							>
 								{loading ? (
-									<Center h={'75vh'}>
+									<Center h={"75vh"}>
 										<Spinner />
 									</Center>
 								) : (
@@ -122,7 +94,7 @@ const SideBar = () => {
 												borderRadius="5"
 												cursor={"pointer"}
 												_hover={{ backgroundColor: "gray.300" }}
-												onClick={() => handleSelect(item)}
+												onClick={() => handleSelect({email:item.email, id:item.id, type:"User"})}
 												key={item.id}
 											>
 												<Avatar src="https://bit.ly/broken-link" size={"sm"} />

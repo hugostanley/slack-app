@@ -14,8 +14,8 @@ const Client = () => {
 	const [chatList, setChatList] = useState([]);
 
 	const getConvo = (allUsers) => {
-		console.log(allUsers)
-		for (let i = allUsers.length - 1300; i < allUsers.length; i++) {
+		console.log(allUsers);
+		for (let i = allUsers.length - 1000; i < allUsers.length; i++) {
 			let current = allUsers[i];
 			axios
 				.get(
@@ -70,7 +70,7 @@ const Client = () => {
 	useEffect(() => {
 		axios
 			.get(
-				`http://206.189.91.54/api/v1/messages?receiver_id=${selectedConversation.id}&receiver_class=User`,
+				`http://206.189.91.54/api/v1/messages?receiver_id=${selectedConversation.id}&receiver_class=${selectedConversation.receiver_class}`,
 				{
 					headers: headers,
 				}
